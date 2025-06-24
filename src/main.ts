@@ -9,10 +9,18 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 
+// Importa el objeto 'environment' para acceder a la configuración de Firebase
+import { environment } from './environments/environment'; // <-- AÑADIDO / MODIFICADO
+
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    provideRouter(routes, withPreloading(PreloadAllModules)), provideFirebaseApp(() => initializeApp({ projectId: "gym-app-fire", appId: "1:488766691095:web:d4ce19586f53a4d55f0952", storageBucket: "gym-app-fire.firebasestorage.app", apiKey: "AIzaSyAZe5d-8TJuu_qrnmaDJh6ETVM6szJXNmI", authDomain: "gym-app-fire.firebaseapp.com", messagingSenderId: "488766691095", measurementId: "G-KW4XX759CR" })), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideStorage(() => getStorage()),
+    provideRouter(routes, withPreloading(PreloadAllModules)),
+    // Ahora inicializamos Firebase usando la configuración del archivo environment.ts
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)), // <-- MODIFICADO
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
   ],
 });
