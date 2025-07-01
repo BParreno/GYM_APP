@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Regresar" color="danger"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding custom-bg">
+
+  <div class="text-center">
+    <h2>¿Cuál Es Tu Estatura?</h2>
+    <p>Ingrese correctamente su Estatura.</p>
+  </div>
+
+  <div class="height-display">
+    <h1>{{ height }}</h1>
+    <span>Cm</span>
+  </div>
+
+  <div class="ruler-vertical">
+    <div class="ruler-container">
+      <div
+        *ngFor="let h of heights"
+        class="ruler-mark"
+        [class.selected]="h === height"
+        (click)="selectHeight(h)"
+      >
+        {{ h }}
+      </div>
+      <div class="indicator">▶</div>
+    </div>
+  </div>
+
+  <ion-button expand="full" shape="round" class="continue-btn" (click)="saveHeight()">
+    Continuar
+  </ion-button>
+</ion-content>
