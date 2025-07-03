@@ -1,0 +1,62 @@
+.custom-background {
+  --background: #232222; /* Color del fondo de la app */
+  color: #FFFFFF; /* Color de texto para el contenido principal */
+}
+
+ion-toolbar {
+  --background: #232222; /* Fondo del toolbar igual al de la app */
+  --color: #FFFFFF; /* Color del texto del toolbar */
+}
+
+ion-back-button {
+  --color: #f2152d; /* <--- COLOR ACTUALIZADO: Color del botón regresar */
+}
+
+.header-text {
+  color: #FFFFFF; /* Color de Encabezados y Títulos */
+  p {
+    color: #FFFFFF;
+  }
+  .text-gray-600 {
+    color: #ddd;
+  }
+}
+
+.objective-item {
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  --background: #FFFFFF; /* Fondo por defecto (no seleccionado) */
+  --color: #232222; /* Color de texto por defecto */
+
+  &.is-selected { /* Estilo para el item seleccionado */
+    --background: #e50f36; /* <--- COLOR ACTUALIZADO: Color de los recuadros al ser seleccionados */
+    --color: #FFFFFF;
+  }
+
+  ion-label {
+    color: var(--color); /* Hereda el color del texto del item */
+  }
+
+  ion-icon {
+    color: var(--color);
+
+    &[name="checkmark-circle"] {
+      color: #FFFFFF; // Forzar a blanco para el checkmark seleccionado
+    }
+    &[name="ellipse-outline"] {
+      color: #232222; // Forzar a oscuro para el círculo no seleccionado
+    }
+  }
+}
+
+ion-list {
+  background: transparent;
+}
+
+.continue-button {
+  --background: #e50f36; /* <--- COLOR ACTUALIZADO: Usar el mismo color para el botón continuar si quieres que coincida con la selección */
+  --color: #FFFFFF;
+  --border-radius: 8px;
+  margin-top: 20px;
+}

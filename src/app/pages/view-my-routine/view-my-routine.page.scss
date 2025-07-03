@@ -1,0 +1,59 @@
+.custom-background {
+  --background: #232222;
+  color: #FFFFFF;
+}
+
+ion-toolbar {
+  --background: #232222;
+  --color: #FFFFFF;
+}
+
+ion-back-button {
+  --color: #f2152d; /* <--- COLOR ACTUALIZADO: Color del botón regresar */
+}
+
+.header-text {
+  color: #FFFFFF;
+  h2, p {
+    color: #FFFFFF;
+  }
+}
+
+.custom-card {
+  --background: #302c2c; /* Color de las cards ligeramente más claro */
+  color: #FFFFFF; /* Texto dentro de la card */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  .card-title {
+    color: #FFFFFF;
+  }
+  .card-subtitle {
+    color: #ccc;
+  }
+  .card-details p {
+    color: #eee;
+  }
+
+  .exercise-list {
+    background: transparent; /* Fondo transparente para la lista de ejercicios */
+    ion-item {
+      --background: transparent; /* Fondo transparente para cada item de ejercicio */
+      --color: #FFFFFF; /* Color del texto del ejercicio */
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Separador sutil */
+      &:last-child {
+        border-bottom: none;
+      }
+      ion-note {
+        color: #ccc; /* Color de la nota (sets/reps) */
+      }
+    }
+  }
+}
+
+.continue-button {
+  --background: #e50f36; /* <--- COLOR ACTUALIZADO: Usar el color de selección para el botón */
+  --color: #FFFFFF;
+  --border-radius: 8px;
+  margin-top: 20px;
+}

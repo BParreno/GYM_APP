@@ -1,14 +1,13 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/role-selection"></ion-back-button>
+      <ion-back-button defaultHref="/role-selection" text="Regresar" color="back-button"></ion-back-button>
     </ion-buttons>
-    <ion-title>Seleccionar Objetivo</ion-title>
-  </ion-toolbar>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="ion-text-center ion-margin-bottom">
+<ion-content class="ion-padding custom-background">
+  <div class="ion-text-center ion-margin-bottom header-text">
     <p class="text-lg font-semibold">¿Cuál Es Tu Objetivo?</p>
     <p class="text-sm text-gray-600">Ingrese el enfoque al que quiere llevar su entrenamiento.</p>
   </div>
@@ -18,18 +17,20 @@
       *ngFor="let objective of availableObjectives"
       button
       (click)="toggleObjective(objective)"
-      [color]="isSelected(objective) ? 'primary' : ''"
+      [class.is-selected]="isSelected(objective)"
       class="objective-item"
     >
       <ion-label>{{ objective }}</ion-label>
-      <ion-icon [name]="isSelected(objective) ? 'checkmark-circle' : 'ellipse-outline'" slot="end" [color]="isSelected(objective) ? 'light' : 'medium'"></ion-icon>
+      <ion-icon [name]="isSelected(objective) ? 'checkmark-circle' : 'ellipse-outline'" slot="end"></ion-icon>
     </ion-item>
   </ion-list>
 
   <ion-button
     expand="block"
     (click)="continueToNextPage()"
-    [disabled]="selectedObjectives.length === 0" >
+    [disabled]="selectedObjectives.length === 0"
+    class="continue-button"
+  >
     Continuar
   </ion-button>
 </ion-content>

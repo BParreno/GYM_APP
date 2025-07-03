@@ -1,11 +1,15 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Seleccionar Rol</ion-title>
+    <ion-buttons slot="start">
+      <!-- Botón de regresar, asumiendo que viene de profile-setup-weight -->
+      <ion-back-button defaultHref="/profile-setup-weight" text="Regresar" color="back-button"></ion-back-button>
+    </ion-buttons>
+    <!-- No hay ion-title aquí -->
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="ion-text-center ion-margin-bottom">
+<ion-content class="ion-padding custom-background">
+  <div class="ion-text-center ion-margin-bottom header-text">
     <p class="text-lg font-semibold">¿Qué Rol Vas A Desempeñar?</p>
     <p class="text-sm text-gray-600">Selecciona el rol que vas a desempeñar en el gimnasio.</p>
   </div>

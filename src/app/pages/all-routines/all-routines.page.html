@@ -1,68 +1,74 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Todas las Rutinas</ion-title>
-    </ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text="Regresar" color="back-button"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="ion-text-center">
-    <h2 class="text-xl font-bold">Gestión de Rutinas</h2>
-    <p class="text-gray-700">Como entrenador, puedes ver, asignar y crear rutinas.</p>
+<ion-content class="ion-padding custom-background">
+  <div class="info-section ion-text-center">
+    <h2>Gestión de Rutinas</h2>
+    <p>Como entrenador, puedes ver, asignar y crear rutinas.</p>
   </div>
 
-  <ion-list class="ion-margin-top">
-    <ion-item button *ngFor="let routine of allRoutines" (click)="viewRoutineDetails(routine)">
+  <ion-list lines="none" class="ion-margin-top">
+    <ion-item *ngFor="let routine of allRoutines" class="routine-item" button>
       <ion-label>
         <h3>{{ routine.name }}</h3>
         <p>Duración: {{ routine.duration }} | {{ routine.exercises }} Ejercicios</p>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button (click)="assignRoutine(routine); $event.stopPropagation()">
-          <ion-icon name="person-add-outline"></ion-icon>
+        <ion-button fill="clear" (click)="assignRoutine(routine); $event.stopPropagation()" class="assign-button">
           Asignar
         </ion-button>
+        <ion-icon name="chevron-forward-outline" class="detail-arrow"></ion-icon>
       </ion-buttons>
     </ion-item>
   </ion-list>
 
-  <ion-button expand="block" class="ion-margin-top" (click)="createRoutine()">
-    <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+  <ion-button expand="block" class="main-action-button create-routine-button" (click)="createRoutine()">
     Crear Nueva Rutina
   </ion-button>
 
-  <ion-modal [isOpen]="isAssignModalOpen" (didDismiss)="isAssignModalOpen = false">
+  <ion-button expand="block" routerLink="/home" class="main-action-button back-to-home-button">
+    Volver al Inicio
+  </ion-button>
+
+  <ion-modal [isOpen]="isAssignModalOpen">
     <ng-template>
       <ion-header>
-        <ion-toolbar>
-          <ion-title>Asignar Rutina</ion-title>
+        <ion-toolbar class="modal-toolbar">
+          <ion-title class="modal-title">Asignar Rutina: {{ selectedRoutineForAssignment?.name }}</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="isAssignModalOpen = false">Cerrar</ion-button>
+            <ion-button (click)="isAssignModalOpen = false" class="modal-close-button">Cerrar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
-        <p>Asignar "{{ selectedRoutineForAssignment?.name }}" a:</p>
-        <ion-item>
-          <ion-input label="ID de Usuario" label-placement="stacked" [(ngModel)]="userIdToAssign"></ion-input>
+      <ion-content class="ion-padding modal-content">
+        <p class="modal-text">Ingrese el ID del usuario al que desea asignar esta rutina.</p>
+        <ion-item class="modal-input-item">
+          <ion-label position="floating">ID de Usuario</ion-label>
+          <ion-input [(ngModel)]="userIdToAssign"></ion-input>
         </ion-item>
-        <ion-button expand="block" (click)="confirmAssignment()">Confirmar Asignación</ion-button>
+        <ion-button expand="block" (click)="confirmAssignment()" class="modal-action-button">Confirmar Asignación</ion-button>
       </ion-content>
     </ng-template>
   </ion-modal>
 
-  <ion-modal [isOpen]="isCreateModalOpen" (didDismiss)="cancelCreateRoutine()">
+  <ion-modal [isOpen]="isCreateModalOpen">
     <ng-template>
       <ion-header>
-        <ion-toolbar>
-          <ion-title>Crear Nueva Rutina</ion-title>
+        <ion-toolbar class="modal-toolbar">
+          <ion-title class="modal-title">Crear Nueva Rutina</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="cancelCreateRoutine()">Cancelar</ion-button>
+            <ion-button (click)="cancelCreateRoutine()" class="modal-close-button">Cerrar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
+      <ion-content class="ion-padding modal-content">
         <ion-list lines="none">
-          <ion-item>
+          <ion-item class="modal-input-item">
             <ion-input
               label="Nombre de la Rutina"
               label-placement="stacked"
@@ -70,7 +76,7 @@
               [(ngModel)]="newRoutine.name"
             ></ion-input>
           </ion-item>
-          <ion-item>
+          <ion-item class="modal-input-item">
             <ion-input
               label="Duración (ej. 60 minutos)"
               label-placement="stacked"
@@ -78,7 +84,7 @@
               [(ngModel)]="newRoutine.duration"
             ></ion-input>
           </ion-item>
-          <ion-item>
+          <ion-item class="modal-input-item">
             <ion-input
               label="Número de Ejercicios"
               label-placement="stacked"
@@ -87,13 +93,12 @@
               [(ngModel)]="newRoutine.exercises"
             ></ion-input>
           </ion-item>
-          </ion-list>
-        <ion-button expand="block" class="ion-margin-top" (click)="saveNewRoutine()">
-          Guardar Rutina (Solo Demo)
+        </ion-list>
+        <ion-button expand="block" class="modal-action-button" (click)="saveNewRoutine()">
+          Guardar Rutina
         </ion-button>
       </ion-content>
     </ng-template>
   </ion-modal>
 
-  <ion-button expand="block" routerLink="/home" class="ion-margin-top">Volver al Inicio</ion-button>
 </ion-content>
