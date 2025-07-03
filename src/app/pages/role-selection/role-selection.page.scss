@@ -1,0 +1,35 @@
+.custom-background {
+  --background: #232222; /* Color del fondo de la app */
+  color: #FFFFFF; /* Color de texto para el contenido principal */
+}
+
+ion-toolbar {
+  --background: #232222; /* Fondo del toolbar igual al de la app */
+  --color: #FFFFFF; /* Color del texto del toolbar (si hubiera título) */
+}
+
+ion-back-button {
+  --color: #f2152d; /* <--- COLOR ACTUALIZADO: Color del botón regresar */
+}
+
+.header-text {
+  color: #FFFFFF; /* Color de Encabezados y Títulos */
+  p {
+    color: #FFFFFF; /* Asegura que el texto dentro del div también sea blanco */
+  }
+  .text-gray-600 {
+    color: #ddd; // Un gris claro para el subtítulo si no quieres blanco puro
+  }
+}
+
+.role-item {
+  --background: #FFFFFF; /* Color de los recuadros cuando no están seleccionados */
+  --color: #232222; /* Color del texto dentro del recuadro */
+  border-radius: 8px; /* Bordes redondeados */
+  margin-bottom: 10px; /* Espacio entre items */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
+
+ion-list {
+  background: transparent; /* Asegura que la lista no tenga un fondo blanco */
+}

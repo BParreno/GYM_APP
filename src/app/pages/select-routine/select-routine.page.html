@@ -1,0 +1,43 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/objective-selection-intermedio" text="Regresar" color="back-button"></ion-back-button>
+    </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding custom-background">
+  <div class="ion-text-center header-text">
+    <h2 class="text-xl font-bold">Selecciona Tu Próxima Rutina</h2>
+    <p class="text-gray-700">Explora las rutinas disponibles y elige la que mejor se adapte a tus necesidades.</p>
+  </div>
+
+  <ion-list class="ion-margin-top" lines="none">
+    <ion-item
+      *ngFor="let routine of availableRoutines"
+      button
+      (click)="selectSingleRoutine(routine)"
+      [class.is-selected]="isSelected(routine)"
+      class="routine-item"
+    >
+      <div slot="start" class="routine-image-container">
+        <img [src]="routine.imageUrl" alt="Imagen de la rutina" class="routine-thumbnail">
+      </div>
+      <ion-label>
+        <h3>{{ routine.name }}</h3>
+        <p>Duración: {{ routine.duration }} | {{ routine.exercises }} Ejercicios</p>
+      </ion-label>
+      <ion-icon [name]="isSelected(routine) ? 'checkmark-circle' : 'ellipse-outline'" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <ion-button
+    expand="block"
+    class="ion-margin-top"
+    (click)="viewSelectedRoutine()"
+    [disabled]="!selectedRoutine"
+    class="continue-button"
+  >
+    Ver Rutina Seleccionada
+  </ion-button>
+</ion-content>

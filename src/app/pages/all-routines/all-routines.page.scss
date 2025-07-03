@@ -1,0 +1,154 @@
+.custom-background {
+  --background: #121212; /* Fondo oscuro principal */
+  color: #FFFFFF; /* Color de texto general en blanco */
+}
+
+ion-header {
+  --background: #121212; /* Fondo oscuro para el header */
+}
+
+ion-toolbar {
+  --background: #121212; /* Fondo oscuro para el toolbar */
+  --color: #FFFFFF; /* Color de texto e iconos en el toolbar */
+}
+
+ion-back-button {
+  --color: #f2152d; /* Color rojo para el botón de regresar */
+}
+
+/* Sección de "Gestión de Rutinas", ahora actuando como el título principal */
+.info-section {
+  color: #FFFFFF;
+  padding-bottom: 15px;
+  // Ajustes de margen para el nuevo "título"
+  margin-top: 20px; /* Espacio debajo del toolbar */
+  margin-bottom: 25px; /* Espacio antes de la lista de rutinas */
+  h2 {
+    font-size: 1.8em; /* Hacemos el h2 más grande para que parezca un título principal */
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  p {
+    font-size: 0.9em;
+    opacity: 0.8;
+  }
+}
+
+ion-list {
+  background: transparent;
+  padding: 0;
+}
+
+.routine-item {
+  --background: #1E1E1E; /* Fondo oscuro para cada item de rutina */
+  --color: #FFFFFF; /* Texto blanco en el item */
+  border-radius: 12px; /* Bordes más redondeados */
+  margin-bottom: 15px; /* Espacio entre items */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Sombra para profundidad */
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  min-height: 80px; /* Altura mínima ajustada para items sin imagen */
+  overflow: hidden;
+
+  ion-label {
+    flex-grow: 1;
+    h3 {
+      color: inherit;
+      font-size: 1.1em;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    p {
+      color: inherit;
+      opacity: 0.7;
+      font-size: 0.85em;
+      margin: 2px 0;
+    }
+  }
+
+  ion-buttons {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .assign-button {
+    --background: transparent;
+    --color: #f2152d;
+    font-weight: bold;
+    font-size: 0.9em;
+    padding: 0 10px;
+  }
+
+  .detail-arrow {
+    font-size: 20px;
+    color: #f2152d;
+    margin-left: 5px;
+  }
+}
+
+/* Estilos para los botones principales fuera de la lista */
+.main-action-button {
+  --background: #f2152d; /* Fondo rojo para los botones principales */
+  --color: #FFFFFF;
+  --border-radius: 8px;
+  margin-top: 15px; /* Espacio entre botones y con la lista */
+  font-weight: bold;
+}
+
+.back-to-home-button {
+  --background: #302c2c; /* Un tono más oscuro para el botón de regresar al inicio */
+}
+
+/* Estilos para los modales */
+ion-modal {
+  --background: #232222; /* Fondo oscuro del modal */
+  --border-radius: 10px;
+  --box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+  .modal-toolbar {
+    --background: #302c2c; /* Fondo del toolbar del modal */
+    --color: #FFFFFF;
+    .modal-title {
+      color: #FFFFFF;
+    }
+  }
+
+  .modal-content {
+    --background: #232222; /* Fondo del contenido del modal */
+    color: #FFFFFF;
+  }
+
+  .modal-text {
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .modal-input-item {
+    --background: #302c2c; /* Fondo de los campos de entrada del modal */
+    --color: #FFFFFF;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    ion-input {
+      --color: #FFFFFF;
+      --placeholder-color: #ccc;
+      --placeholder-opacity: 0.8;
+    }
+    ion-label {
+      color: #FFFFFF;
+    }
+  }
+
+  .modal-action-button {
+    --background: #f2152d; /* Botón de acción en el modal (rojo) */
+    --color: #FFFFFF;
+    --border-radius: 8px;
+    margin-top: 15px;
+  }
+
+  .modal-close-button {
+    --color: #FFFFFF; /* Botón de cerrar en el modal (blanco) */
+  }
+}

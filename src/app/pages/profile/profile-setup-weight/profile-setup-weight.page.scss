@@ -1,0 +1,59 @@
+.custom-bg {
+  --background: #111;
+  color: #fff;
+  text-align: center;
+}
+
+ion-segment {
+  margin: 16px 0;
+}
+
+.scroll-container {
+  position: relative;
+  overflow-x: auto;
+  white-space: nowrap;
+  margin: 20px 0;
+  padding-bottom: 10px;
+}
+
+.ruler {
+  display: inline-flex;
+  gap: 15px;
+  font-size: 20px;
+  justify-content: center;
+}
+
+.ruler div {
+  padding: 4px 8px;
+  cursor: pointer;
+  color: #999;
+}
+
+.ruler div.active {
+  color: #fff;
+  font-weight: bold;
+  border-bottom: 2px solid red;
+}
+
+.indicator {
+  color: red;
+  font-size: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.weight-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.continue-btn {
+  --background: #444;
+  --color: white;
+  border: 1px solid white;
+}

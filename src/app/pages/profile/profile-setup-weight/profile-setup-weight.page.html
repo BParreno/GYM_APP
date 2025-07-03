@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Regresar" color="danger"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding custom-bg">
+
+  <div class="text-center">
+    <h2>¿Cuál Es Tu Peso?</h2>
+    <p>Ingrese correctamente su Peso.</p>
+  </div>
+
+  <ion-segment [(ngModel)]="unit" value="kg" color="danger">
+    <ion-segment-button value="kg">
+      <ion-label>KG</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="lb">
+      <ion-label>LB</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Scroll horizontal para los valores -->
+  <div class="scroll-container">
+    <div class="ruler">
+      <div
+        *ngFor="let w of weights"
+        [class.active]="w === weight"
+        (click)="selectWeight(w)"
+      >
+        {{ w }}
+      </div>
+    </div>
+    <div class="indicator">▼</div>
+  </div>
+
+  <div class="weight-display">
+    <h1>{{ weight }}</h1>
+    <span>{{ unit | uppercase }}</span>
+  </div>
+
+  <ion-button expand="full" shape="round" class="continue-btn" (click)="saveWeight()">
+    Continuar
+  </ion-button>
+
+</ion-content>

@@ -1,0 +1,88 @@
+.custom-background {
+  --background: #232222;
+  color: #FFFFFF;
+}
+
+ion-toolbar {
+  --background: #232222;
+  --color: #FFFFFF;
+}
+
+ion-back-button {
+  --color: #f2152d;
+}
+
+.header-text {
+  color: #FFFFFF;
+  h2, p {
+    color: #FFFFFF;
+  }
+}
+
+.routine-item {
+  // Propiedad CSS estándar para el border-radius del elemento host
+  border-radius: 10px !important; /* REDUCIDO: Menos redondeado */
+
+  // Propiedad personalizada de Ionic para el border-radius interno de ion-item
+  --border-radius: 10px !important; /* REDUCIDO: Menos redondeado */
+
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  padding: 10px;
+
+  --background: #FFFFFF; /* Fondo blanco por defecto */
+  --color: #232222; /* Color de texto por defecto (oscuro) */
+
+  &.is-selected {
+    --background: #e50f36; /* Fondo rojo al ser seleccionado */
+    --color: #FFFFFF; /* Texto blanco al ser seleccionado */
+  }
+
+  ion-label {
+    flex-grow: 1;
+    margin-left: 15px;
+    margin-right: 15px;
+    h3 {
+      color: inherit;
+    }
+    p {
+      color: inherit;
+      opacity: 0.8;
+    }
+  }
+
+  .routine-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 10px !important; /* REDUCIDO: Para la imagen */
+    background-color: #302c2c;
+  }
+
+  .routine-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px !important; /* REDUCIDO: Para la imagen */
+  }
+
+  ion-icon {
+    color: inherit;
+  }
+}
+
+ion-list {
+  background: transparent;
+}
+
+.continue-button {
+  --background: #e50f36;
+  --color: #FFFFFF;
+  --border-radius: 8px;
+  margin-top: 20px;
+}

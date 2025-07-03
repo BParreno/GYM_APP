@@ -1,2 +1,10 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+/* src/theme/variables.scss (EJEMPLO - Si lo tienes) */
+:root {
+  --ion-color-dark-background: #232222;
+  --ion-color-medium-background: #302c2c;
+  --ion-color-light-text: #FFFFFF;
+  --ion-color-selected-item: #e50f36;
+  --ion-color-back-button: #f2152d;
+}
+
+/* O simplemente usa los valores directamente en cada .scss */
