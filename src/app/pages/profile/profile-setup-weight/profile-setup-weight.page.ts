@@ -1,7 +1,9 @@
+// src/app/pages/profile/profile-setup-weight/profile-setup-weight.page.ts (MODIFICADO)
 import { Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router'; // <-- IMPORTAR ROUTER
 
 @Component({
   selector: 'app-profile-setup-weight',
@@ -15,7 +17,7 @@ export class ProfileSetupWeightPage {
   unit: 'kg' | 'lb' = 'kg';
   weights: number[] = [];
 
-  constructor() {
+  constructor(private router: Router) { // <-- INYECTAR ROUTER
     this.generateWeights();
   }
 
@@ -31,5 +33,7 @@ export class ProfileSetupWeightPage {
 
   async saveWeight() {
     console.log('Peso a guardar:', this.weight, this.unit);
+    // Navegar a la página de selección de rol
+    this.router.navigateByUrl('/role-selection'); // <-- NAVEGACIÓN A SELECCIÓN DE ROL
   }
 }

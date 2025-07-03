@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mi Rutina</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="ion-text-center">
+    <h2 class="text-xl font-bold">Rutina Asignada</h2>
+    <p class="text-gray-700">Aquí verás la rutina que te ha sido asignada o tu rutina actual.</p>
+  </div>
+
+  <ion-card class="ion-margin-top">
+    <ion-card-header>
+      <ion-card-title>Rutina de Pecho y Tríceps</ion-card-title>
+      <ion-card-subtitle>Asignada por Entrenador Juan</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Duración: 60 minutos</p>
+      <p>Ejercicios: 5</p>
+      <p>Calorías estimadas: 450 Kcal</p>
+      <ion-list lines="full">
+        <ion-item>
+          <ion-label>Press de Banca (Barra)</ion-label>
+          <ion-note slot="end">4 sets x 8-12 reps</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Aperturas con Mancuernas</ion-label>
+          <ion-note slot="end">3 sets x 10-15 reps</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Press Francés (Mancuernas)</ion-label>
+          <ion-note slot="end">3 sets x 10-12 reps</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label>Extensiones de Tríceps en Polea</ion-label>
+          <ion-note slot="end">3 sets x 12-15 reps</ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" routerLink="/home">Volver al Inicio</ion-button>
+</ion-content>
