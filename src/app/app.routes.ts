@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+
+
 export const routes: Routes = [
   {
     path: 'home',
@@ -11,3 +13,12 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
 ];
+
+
+
+
+
+
+
+
+  
