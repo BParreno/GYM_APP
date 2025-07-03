@@ -20,15 +20,18 @@
 
   <div class="ruler-vertical">
     <div class="ruler-container">
-      <div
+      <div class="box_fixed"><div
+       
         *ngFor="let h of heights"
         class="ruler-mark"
+    
         [class.selected]="h === height"
         (click)="selectHeight(h)"
       >
+           <div class="indicator">▶</div>
         {{ h }}
+        </div>
       </div>
-      <div class="indicator">▶</div>
     </div>
   </div>
 

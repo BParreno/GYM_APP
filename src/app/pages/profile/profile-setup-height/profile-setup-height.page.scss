@@ -51,8 +51,8 @@
 }
 
 .indicator {
-  position: absolute;
-  right: -10px;
+  position:fixed;
+  right: 52%;
   top: 50%;
   transform: translateY(-50%);
   color: red;
@@ -63,4 +63,15 @@
   --background: #444;
   --color: white;
   border: 1px solid white;
+}
+
+
+.box_fixed{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #d9cfd0;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100px;
 }

@@ -37,3 +37,4 @@ export class ProfileSetupHeightPage {
     this.router.navigateByUrl('/profile-setup-weight'); // <-- NAVEGACIÓN A PESO
   }
 }
+  
