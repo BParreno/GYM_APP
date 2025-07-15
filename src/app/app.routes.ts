@@ -7,7 +7,7 @@ export const routes: Routes = [
   // Ruta inicial para la demo: Abrir en Seleccionar Estatura
   {
     path: '',
-    redirectTo: 'profile-setup-height', // <-- CAMBIADO: Iniciar en Estatura
+    redirectTo: 'login', // <-- CAMBIADO: Iniciar en Login
     pathMatch: 'full',
   },
   // Rutas de configuración de perfil (las de tu compañero)
@@ -55,6 +55,22 @@ export const routes: Routes = [
     path: 'all-routines',
     loadComponent: () => import('./pages/all-routines/all-routines.page').then(m => m.AllRoutinesPage)
   },
+  {
+    path: 'login',
+    loadComponent: () => import('./pages/login/login.page').then( m => m.LoginPage)
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage)
+  },
+
+  {
+  path: 'register',
+  loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
+}
+
+
+
   // ----------------------------------------------------------
 ];
 
