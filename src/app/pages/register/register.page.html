@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <ion-item>
+      <ion-label position="floating">Nombre de usuario</ion-label>
+      <ion-input type="text" formControlName="username"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Correo electrónico</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Confirmar contraseña</ion-label>
+      <ion-input type="password" formControlName="confirmPassword"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-checkbox [(ngModel)]="acceptedPolicy" slot="start"></ion-checkbox>
+      <ion-label>
+        Acepto las <a (click)="showPrivacyPolicy()">políticas de privacidad y términos de servicio</a>
+      </ion-label>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" [disabled]="registerForm.invalid">Registrarse</ion-button>
+  </form>
+
+  <ion-text class="ion-text-center ion-margin-top" color="medium">
+    <p>¿Ya tienes una cuenta? <a (click)="goToLogin()">Iniciar sesión</a></p>
+  </ion-text>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-text class="ion-text-center" color="medium">
+      <p>Al registrarte, aceptas nuestras <a (click)="showPrivacyPolicy()">políticas de privacidad y términos de servicio</a>.</p>
+    </ion-text>
+  </ion-toolbar>
+</ion-footer>
