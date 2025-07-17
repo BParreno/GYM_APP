@@ -1,0 +1,79 @@
+.custom-bg {
+  --background: #1e1e1e;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-weight: bold;
+}
+
+.title-container {
+  text-align: center;
+  margin-top: 60px;
+
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: white; /* ✅ texto blanco */
+  }
+
+  p {
+    margin-top: 5px;
+    font-size: 14px;
+    color: white; /* ✅ texto blanco */
+  }
+}
+
+.age-selector {
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .arrow {
+    font-size: 32px;
+    color: red;
+    cursor: pointer;
+  }
+
+  .age-box {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* ✅ centrado horizontal */
+    gap: 8px;
+
+    .age-input {
+      width: 60px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      border: none;
+      outline: none;
+      background: white;
+      color: black;
+    }
+
+    .edit-icon {
+      font-size: 20px;
+      color: black;
+    }
+  }
+}
+
+.continue-btn {
+  --background: #333;
+  color: white;
+  border-radius: 12px;
+  margin-top: 20px;
+}
