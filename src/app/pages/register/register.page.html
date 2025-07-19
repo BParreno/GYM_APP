@@ -25,13 +25,22 @@
       <ion-label position="floating">Confirmar contraseña</ion-label>
       <ion-input type="password" formControlName="confirmPassword"></ion-input>
     </ion-item>
+    
+     
 
-    <ion-item lines="none">
-      <ion-checkbox [(ngModel)]="acceptedPolicy" slot="start"></ion-checkbox>
-      <ion-label>
-        Acepto las <a (click)="showPrivacyPolicy()">políticas de privacidad y términos de servicio</a>
-      </ion-label>
-    </ion-item>
+
+
+<ion-item lines="none">
+  <ion-checkbox formControlName="acceptedPolicy" slot="start"></ion-checkbox>
+  <ion-label>
+    Acepto las <a (click)="showPrivacyPolicy()">…Eres entrenador?</a>
+  </ion-label>
+</ion-item>
+
+
+
+        
+      
 
     <ion-button expand="full" type="submit" [disabled]="registerForm.invalid">Registrarse</ion-button>
   </form>
