@@ -67,7 +67,16 @@ export const routes: Routes = [
   {
   path: 'register',
   loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
-}
+},
+  {
+    path: 'profile-setup-age',
+    loadComponent: () => import('./pages/profile/profile-setup-age/profile-setup-age.page').then( m => m.ProfileSetupAgePage)
+  },  {
+    path: 'change-password',
+    loadComponent: () => import('./pages/change-password/change-password.page').then( m => m.ChangePasswordPage)
+  }
+
+
 
 
 

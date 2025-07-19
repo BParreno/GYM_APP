@@ -1,0 +1,26 @@
+<ion-content class="ion-padding custom-bg">
+
+  <ion-button fill="clear" color="danger" (click)="goBack()" class="back-btn">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+    <strong>Salir</strong>
+  </ion-button>
+
+  <div class="title-container">
+    <h1>¿Qué Edad Tienes?</h1>
+    <p>Ingrese correctamente su edad.</p>
+  </div>
+
+  <div class="age-selector">
+    <ion-icon name="caret-up" class="arrow" (click)="increaseAge()"></ion-icon>
+
+    <div class="age-box">
+      <input type="number" [(ngModel)]="age" min="6" class="age-input" />
+      <ion-icon name="pencil-outline" class="edit-icon"></ion-icon>
+    </div>
+
+    <ion-icon name="caret-down" class="arrow" (click)="decreaseAge()"></ion-icon>
+  </div>
+
+  <ion-button expand="block" class="continue-btn" (click)="continue()">Continuar</ion-button>
+
+</ion-content>
