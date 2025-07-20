@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 })
 export class RegisterPage {
   registerForm: FormGroup;
-  acceptedPolicy = false;
 
   constructor(
     private fb: FormBuilder,
@@ -25,9 +24,8 @@ export class RegisterPage {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-
+      acceptedPolicy: [false, Validators.requiredTrue]
     }, { validators: this.passwordsMatch });
-
   }
 
   passwordsMatch(form: FormGroup) {
@@ -38,31 +36,28 @@ export class RegisterPage {
 
   async showPrivacyPolicy() {
     const alert = await this.alertController.create({
-      header: 'Añade tu codigo',
-      message: `[    ]`,
+      header: 'Política de Privacidad',
+      message: 'Aquí van tus políticas o términos. Puedes personalizar este mensaje.',
       buttons: ['Cerrar']
     });
-
     await alert.present();
   }
 
   async onRegister() {
-    if (!this.acceptedPolicy) {
+    if (this.registerForm.invalid) {
       const alert = await this.alertController.create({
-        header: 'Advertencia',
-        message: 'Debes aceptar las políticas de privacidad para continuar.',
-        buttons: ['Entendido'],
+        header: 'Formulario inválido',
+        message: 'Completa todos los campos correctamente.',
+        buttons: ['Ok']
       });
       await alert.present();
       return;
     }
 
-    if (this.registerForm.valid) {
-      const { username, email, password } = this.registerForm.value;
-      console.log('Registrando usuario:', { username, email, password });
+    const { username, email, password } = this.registerForm.value;
+    console.log('Registrando usuario:', { username, email, password });
 
-      this.router.navigate(['/verify-account']);
-    }
+    this.router.navigate(['/verify-account']);
   }
 
   goToLogin() {
