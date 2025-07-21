@@ -9,7 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
+
         <activity
+
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation"
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -24,6 +27,7 @@
 
         </activity>
 
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -36,6 +40,11 @@
     </application>
 
     <!-- Permissions -->
-
-    <uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.BLUETOOTH" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+<uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
+<uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<uses-permission android:name="android.permission.INTERNET" />
 </manifest>

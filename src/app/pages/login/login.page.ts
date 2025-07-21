@@ -37,4 +37,7 @@ export class LoginPage {
   goToRegister() {
     this.router.navigate(['/register']);
   }
+  goToDistance() {
+    this.router.navigate(['/distance']);
+  }
 }

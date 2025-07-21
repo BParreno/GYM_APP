@@ -4,7 +4,7 @@ android {
     namespace "io.ionic.starter"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "io.ionic.starter"
+        applicationId "gym_app.android"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -54,14 +54,6 @@ try {
 }
 
 
-plugins {
-  id 'com.android.application'
-
-  // Add the Google services Gradle plugin
-  id 'com.google.gms.google-services'
-
-  ...
-}
 
 dependencies {
   // Import the Firebase BoM

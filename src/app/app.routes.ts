@@ -84,5 +84,10 @@ export const routes: Routes = [
   {
     path: 'account-recovery',
     loadComponent: () => import('./pages/account-recovery/account-recovery.page').then( m => m.AccountRecoveryPage)
+  },
+  {
+    path: 'distance',
+    loadComponent: () => import('./pages/distance/distance.page').then( m => m.DistancePage)
   }
+
 ];
