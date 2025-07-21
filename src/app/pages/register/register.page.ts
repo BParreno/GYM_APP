@@ -6,6 +6,7 @@ import { IonicModule, AlertController, LoadingController } from '@ionic/angular'
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
+// Custom validator to check if passwords match
 export function passwordMatchValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const password = control.root.get('password');
@@ -15,6 +16,7 @@ export function passwordMatchValidator(): ValidatorFn {
       confirmPassword.setErrors({ mismatch: true });
       return { mismatch: true };
     } else if (confirmPassword && confirmPassword.hasError('mismatch')) {
+      // If they now match, remove the error
       confirmPassword.setErrors(null);
     }
     return null;
@@ -30,7 +32,7 @@ export function passwordMatchValidator(): ValidatorFn {
 })
 export class RegisterPage implements OnInit {
   registerForm: FormGroup;
-  private readonly TRAINER_CODE = '1964'; // Código de entrenador actualizado
+  private readonly TRAINER_CODE = '1964'; // Code for trainer role
 
   constructor(
     private fb: FormBuilder,
@@ -49,6 +51,7 @@ export class RegisterPage implements OnInit {
   }
 
   ngOnInit() {
+    // Re-check password match on value changes
     this.registerForm.get('password')?.valueChanges.subscribe(() => {
       this.registerForm.get('confirmPassword')?.updateValueAndValidity();
     });
@@ -76,7 +79,8 @@ export class RegisterPage implements OnInit {
 
       if (userCredential.user) {
         // Enviar email de verificación de Firebase
-        await this.authService.sendVerificationEmail(userCredential.user);
+        // CORREGIDO: Llamar a sendEmailVerification sin el parámetro user
+        await this.authService.sendEmailVerification();
 
         // Asignar rol inicial en Firestore (solo para entrenadores aquí)
         if (isTrainer) {

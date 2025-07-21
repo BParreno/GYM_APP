@@ -30,11 +30,10 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.currentUser$.subscribe(user => {
-      if (user) {
-        this.redirectToCorrectPage(user.uid);
-      }
-    });
+    // ELIMINADO: La redirección automática si ya hay un usuario logueado.
+    // La página de login ahora siempre se mostrará primero.
+    // La redirección ocurrirá solo después de un login exitoso (en onLogin)
+    // o después de un registro/verificación (desde verify-account).
   }
 
   async onLogin() {
@@ -94,12 +93,13 @@ export class LoginPage implements OnInit {
     const userData = await this.authService.getUserData(uid);
 
     if (userData && userData.role === 'Entrenador') {
-      // Entrenadores, si su perfil está completo, van a all-routines, de lo contrario a login (esto no debería pasar)
+      // Entrenadores, si su perfil está completo, van a all-routines
       if (userData.profileCompleted) {
         this.router.navigateByUrl('/all-routines');
       } else {
-        // Si un entrenador no tiene el perfil completo después de verificar email, es un error de flujo.
-        // Lo redirigimos al login, ya que su perfil debería haberse marcado como completo en verify-account.
+        // Si un entrenador no tiene el perfil completo después de verificar email,
+        // (lo cual se marca en verify-account.page.ts), lo enviamos a login.
+        // Esto es un fallback, el flujo ideal es que ya estaría completo.
         this.router.navigateByUrl('/login');
       }
     } else if (userData && userData.profileCompleted) {
@@ -108,8 +108,8 @@ export class LoginPage implements OnInit {
         case 'Principiante':
           this.router.navigateByUrl('/view-my-routine');
           break;
-        case 'Avanzado': // 'Intermedio' ahora es 'Avanzado'
-          this.router.navigateByUrl('/select-routine'); // Asumiendo que esta es la página de inicio para Avanzados
+        case 'Avanzado':
+          this.router.navigateByUrl('/select-routine');
           break;
         default:
           this.router.navigateByUrl('/login'); // Fallback si el rol es desconocido pero el perfil está completo
@@ -117,7 +117,7 @@ export class LoginPage implements OnInit {
       }
     } else {
       // Perfil no completo (Principiante/Avanzado) o sin rol asignado aún
-      this.router.navigateByUrl('/profile-setup-gender'); // Redirigir a la nueva página de selección de sexo
+      this.router.navigateByUrl('/profile-setup-gender'); // Redirigir a la primera página de configuración de perfil
     }
   }
 

@@ -48,8 +48,26 @@ export class AuthService {
     await signOut(this.auth); // Cerrar sesión de Firebase Auth
   }
 
-  async sendVerificationEmail(user: User) {
-    await sendEmailVerification(user);
+  // Método para obtener el usuario actual de forma asíncrona
+  async getCurrentUser(): Promise<User | null> {
+    return this.auth.currentUser;
+  }
+
+  // Método para recargar el usuario actual de Firebase Auth
+  async reloadCurrentUser(): Promise<void> {
+    const user = this.auth.currentUser;
+    if (user) {
+      await user.reload();
+    }
+  }
+
+  async sendEmailVerification() { // Renombrado a sendEmailVerification sin parámetro de usuario
+    const user = this.auth.currentUser;
+    if (user) {
+      await sendEmailVerification(user);
+    } else {
+      throw new Error('No authenticated user to send verification email.');
+    }
   }
 
   async sendPasswordResetEmail(email: string) {

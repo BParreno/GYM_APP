@@ -3,39 +3,41 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, AlertController, LoadingController } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router'; // Eliminado RouterLink si no se usa en el template
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from '@angular/fire/auth';
+import { User } from '@angular/fire/auth'; // Importar User de Firebase Auth
 
 @Component({
   selector: 'app-verify-account',
   templateUrl: './verify-account.page.html',
   styleUrls: ['./verify-account.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule] // Eliminado RouterLink de imports si no se usa
 })
 export class VerifyAccountPage implements OnInit {
   userEmail: string | null = null;
-  currentUser: User | null = null;
+  currentUser: User | null = null; // Mantener para el ngOnInit
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
     private authService: AuthService,
+    private router: Router,
     private alertController: AlertController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   async ngOnInit() {
+    // Obtener el email de los queryParams (desde register)
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['email']) {
         this.userEmail = params['email'];
       }
     });
 
+    // Suscribirse a currentUser$ para obtener el usuario autenticado
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
-      if (user && !this.userEmail) {
+      if (user && !this.userEmail) { // Si no hay email en queryParams, usar el del usuario actual
         this.userEmail = user.email;
       }
       // Si el usuario ya está verificado, redirigir inmediatamente
@@ -44,60 +46,83 @@ export class VerifyAccountPage implements OnInit {
       }
     });
 
-    await new Promise(resolve => setTimeout(resolve, 100)); // Pequeña espera
+    // Pequeña espera para asegurar que currentUser se haya establecido antes de intentar reenviar
+    await new Promise(resolve => setTimeout(resolve, 100));
   }
 
-  async sendVerificationEmail() {
-    if (!this.currentUser) {
-      await this.presentAlert('Error', 'No hay un usuario autenticado para enviar el correo de verificación.');
-      return;
-    }
-
+  async onResendVerificationEmail() { // Renombrado para coincidir con el HTML
     const loading = await this.loadingController.create({
-      message: 'Reenviando correo de verificación...',
+      message: 'Enviando correo de verificación...',
     });
     await loading.present();
 
     try {
-      await this.authService.sendVerificationEmail(this.currentUser);
+      await this.authService.sendEmailVerification(); // Llama al método corregido en AuthService
       await loading.dismiss();
-      await this.presentAlert('Correo Reenviado', `Se ha reenviado un correo de verificación a ${this.userEmail}. Por favor, revisa tu bandeja de entrada y spam.`);
-    } catch (error: any) {
+      await this.presentAlert('Correo Enviado', 'Se ha enviado un nuevo correo de verificación. Revisa tu bandeja de entrada y spam.');
+    } catch (error) {
       await loading.dismiss();
-      console.error('Error sending verification email:', error);
-      await this.presentAlert('Error', 'Error al reenviar el correo de verificación.');
+      console.error('Error al reenviar correo de verificación:', error);
+      await this.presentAlert('Error', 'Hubo un problema al reenviar el correo. Por favor, intenta de nuevo.');
     }
   }
 
-  async checkVerificationStatus() {
-    if (!this.currentUser) {
-      await this.presentAlert('Error', 'No hay un usuario autenticado para verificar.');
-      return;
-    }
-
+  async onCheckVerificationStatus() { // Renombrado para coincidir con el HTML
     const loading = await this.loadingController.create({
-      message: 'Verificando estado...',
+      message: 'Verificando cuenta...',
     });
     await loading.present();
 
     try {
-      await this.currentUser.reload(); // Recargar el usuario para obtener el estado más reciente
-      if (this.currentUser.emailVerified) {
-        await loading.dismiss();
-        await this.presentAlert('Verificación Exitosa', 'Tu cuenta ha sido verificada correctamente.');
-        // Para entrenadores, marcar perfil como completo aquí
-        const userData = await this.authService.getUserData(this.currentUser.uid);
-        if (userData && userData.role === 'Entrenador') {
-          await this.authService.markProfileAsCompleted(this.currentUser.uid);
+      await this.authService.reloadCurrentUser(); // Recargar el usuario de Firebase Auth
+      const user = await this.authService.getCurrentUser(); // Obtener el usuario actualizado
+
+      if (user && user.emailVerified) {
+        const uid = user.uid;
+        const userData = await this.authService.getUserData(uid);
+
+        if (userData) {
+          if (userData.role === 'Entrenador') {
+            // Entrenador: marcar profileCompleted como true si no lo está
+            if (!userData.profileCompleted) {
+              await this.authService.updateUserProfileData(uid, { profileCompleted: true }); // Usar updateUserProfileData
+              await this.presentAlert('Cuenta verificada', 'Tu cuenta de entrenador ha sido verificada. Por favor, inicia sesión.');
+            } else {
+              await this.presentAlert('Cuenta verificada', 'Tu cuenta ya estaba verificada y completa. Por favor, inicia sesión.');
+            }
+            // IMPORTANTE: CERRAR SESIÓN ANTES DE REDIRIGIR AL LOGIN
+            await this.authService.logout();
+            this.router.navigateByUrl('/login');
+
+          } else {
+            // Principiante/Avanzado: Redirigir al flujo de configuración de perfil si no está completo
+            if (!userData.profileCompleted) {
+              await this.presentAlert('Cuenta verificada', 'Tu cuenta ha sido verificada. Continúa con la configuración de tu perfil.');
+              this.router.navigateByUrl('/profile-setup-gender'); // Redirigir a la primera página de configuración
+            } else {
+              // Si ya está completo (lo cual no debería ser el caso si recién verifica),
+              // lo enviamos al login y forzamos el logout por si acaso.
+              await this.presentAlert('Cuenta verificada', 'Tu cuenta ya estaba verificada y completa. Por favor, inicia sesión.');
+              // IMPORTANTE: CERRAR SESIÓN ANTES DE REDIRIGIR AL LOGIN
+              await this.authService.logout();
+              this.router.navigateByUrl('/login');
+            }
+          }
+        } else {
+          // Si no se encontraron datos de perfil (escenario inesperado), ir a login después de cerrar sesión
+          await this.presentAlert('Cuenta verificada', 'Tu cuenta ha sido verificada. Por favor, inicia sesión.');
+          // IMPORTANTE: CERRAR SESIÓN ANTES DE REDIRIGIR AL LOGIN
+          await this.authService.logout();
+          this.router.navigateByUrl('/login');
         }
-        await this.redirectToCorrectPage(this.currentUser.uid);
       } else {
-        await loading.dismiss();
-        await this.presentAlert('No Verificado', 'Tu correo aún no ha sido verificado. Por favor, revisa tu bandeja de entrada o intenta reenviar el correo.');
+        await this.presentAlert('Aún no verificado', 'Tu correo aún no ha sido verificado. Por favor, revisa tu bandeja de entrada o intenta reenviar el correo.');
       }
-    } catch (error: any) {
+    } catch (error) {
+      console.error('Error al verificar cuenta:', error);
+      await this.presentAlert('Error', 'Hubo un problema al verificar tu cuenta. Por favor, intenta de nuevo.');
+    } finally {
       await loading.dismiss();
-      await this.presentAlert('Error', 'No se pudo verificar el estado del correo. Intenta de nuevo.');
     }
   }
 
@@ -105,28 +130,25 @@ export class VerifyAccountPage implements OnInit {
     const userData = await this.authService.getUserData(uid);
 
     if (userData && userData.role === 'Entrenador') {
-      // Entrenadores, si su email está verificado, se considera su perfil completo y van al login
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/login'); // Entrenadores verificados van al login
     } else if (userData && userData.profileCompleted) {
-      // Si el perfil ya está completo (Principiante/Avanzado que ya terminó el flujo)
       switch (userData.role) {
         case 'Principiante':
-          this.router.navigateByUrl('/view-my-routine'); // Página de inicio para Principiantes
+          this.router.navigateByUrl('/view-my-routine');
           break;
-        case 'Avanzado': // 'Intermedio' ahora es 'Avanzado'
-          this.router.navigateByUrl('/select-routine'); // Página de inicio para Avanzados
+        case 'Avanzado':
+          this.router.navigateByUrl('/select-routine');
           break;
         default:
-          this.router.navigateByUrl('/login'); // Fallback
+          this.router.navigateByUrl('/login');
           break;
       }
     } else {
-      // Si el perfil no está completo (Principiante/Avanzado nuevo), redirigir a profile-setup-gender
       this.router.navigateByUrl('/profile-setup-gender');
     }
   }
 
-  goToLogin() {
+  goToLogin() { // Método para el botón "Volver al inicio de sesión"
     this.router.navigate(['/login']);
   }
 
