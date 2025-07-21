@@ -1,0 +1,89 @@
+/* src/app/pages/profile/profile-setup-gender/profile-setup-gender.page.scss */
+ion-content {
+  --background: #f4f5f8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-icon {
+  font-size: 80px;
+  color: var(--ion-color-danger);
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.gender-selection {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.gender-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  flex: 1;
+  background: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.gender-option:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.gender-option.selected {
+  border-color: var(--ion-color-danger);
+  background: var(--ion-color-danger-tint);
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+}
+
+.gender-option ion-icon {
+  font-size: 60px;
+  margin-bottom: 10px;
+  color: var(--ion-color-primary); /* Color del icono por defecto */
+}
+
+.gender-option.selected ion-icon {
+  color: var(--ion-color-danger); /* Color del icono cuando está seleccionado */
+}
+
+.gender-option p {
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.gender-option.selected p {
+  color: var(--ion-color-dark);
+}
+
+ion-button {
+  margin-top: 40px;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+}

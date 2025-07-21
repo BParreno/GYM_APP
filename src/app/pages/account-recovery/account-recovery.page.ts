@@ -8,14 +8,13 @@ import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-account-recovery',
-  templateUrl: './account-recovery.page.html', // **CORREGIDO: Apunta al HTML correcto**
+  templateUrl: './account-recovery.page.html',
   styleUrls: ['./account-recovery.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
 })
-export class AccountRecoveryPage implements OnInit { // **CLASE CORREGIDA: AccountRecoveryPage**
+export class AccountRecoveryPage implements OnInit {
   recoveryForm: FormGroup;
-  userEmail: string | null = null; // Añadido para consistencia si se necesitara mostrar el email
 
   constructor(
     private fb: FormBuilder,
@@ -30,10 +29,10 @@ export class AccountRecoveryPage implements OnInit { // **CLASE CORREGIDA: Accou
   }
 
   ngOnInit() {
-    // No hay ActivatedRoute inyectado si no se usa aquí.
+    // No se necesita ActivatedRoute aquí a menos que se espere un email por queryParams
   }
 
-  async onSendRecoveryCode() {
+  async onSendRecoveryLink() { // Renombrado para reflejar que envía un link
     if (this.recoveryForm.invalid) {
       const alert = await this.alertController.create({
         header: 'Correo Inválido',
@@ -62,6 +61,7 @@ export class AccountRecoveryPage implements OnInit { // **CLASE CORREGIDA: Accou
       });
       await successAlert.present();
 
+      // Después de enviar el enlace, el usuario debe ir al login para intentar iniciar sesión con la nueva contraseña
       this.router.navigate(['/login']);
 
     } catch (error: any) {

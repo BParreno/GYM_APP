@@ -1,7 +1,8 @@
+<!-- src/app/pages/profile/profile-setup-height/profile-setup-height.page.html -->
 <ion-header>
   <ion-toolbar color="dark">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/" text="Regresar" color="danger"></ion-back-button>
+      <ion-back-button defaultHref="/profile-setup-age" text="Regresar" color="danger"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -13,29 +14,23 @@
     <p>Ingrese correctamente su Estatura.</p>
   </div>
 
-  <div class="height-display">
-    <h1>{{ height }}</h1>
-    <span>Cm</span>
-  </div>
-
-  <div class="ruler-vertical">
-    <div class="ruler-container">
-      <div class="box_fixed"><div
-       
-        *ngFor="let h of heights"
-        class="ruler-mark"
-    
-        [class.selected]="h === height"
-        (click)="selectHeight(h)"
-      >
-           <div class="indicator"></div>
-        {{ h }}
-        </div>
-      </div>
+  <form [formGroup]="heightForm" (ngSubmit)="onNext()">
+    <ion-item class="custom-item">
+      <ion-label position="floating">Estatura (cm)</ion-label>
+      <ion-input type="number" formControlName="height" min="50" max="250"></ion-input>
+    </ion-item>
+    <div *ngIf="heightForm.get('height')?.touched && heightForm.get('height')?.errors?.['required']" class="error-message">
+      La estatura es requerida.
     </div>
-  </div>
+    <div *ngIf="heightForm.get('height')?.touched && (heightForm.get('height')?.errors?.['min'] || heightForm.get('height')?.errors?.['max'])" class="error-message">
+      La estatura debe estar entre 50 y 250 cm.
+    </div>
+    <div *ngIf="heightForm.get('height')?.touched && heightForm.get('height')?.errors?.['pattern']" class="error-message">
+      Solo se permiten números.
+    </div>
 
-  <ion-button expand="full" shape="round" class="continue-btn" (click)="saveHeight()">
-    Continuar
-  </ion-button>
+    <ion-button expand="block" type="submit" color="danger" [disabled]="heightForm.invalid">
+      Siguiente
+    </ion-button>
+  </form>
 </ion-content>

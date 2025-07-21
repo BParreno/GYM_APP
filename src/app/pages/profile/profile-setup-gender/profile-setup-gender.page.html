@@ -1,0 +1,48 @@
+<!-- src/app/pages/profile/profile-setup-gender/profile-setup-gender.page.html -->
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/verify-account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Configurar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+  <ion-icon name="accessibility-outline" size="large" color="primary" class="ion-margin-bottom"></ion-icon>
+  
+  <h1 class="ion-text-center">¿Cuál es tu sexo?</h1>
+  <p class="ion-text-center">
+    Selecciona tu sexo para personalizar tu experiencia.
+  </p>
+
+  <div class="gender-selection">
+    <div 
+      class="gender-option" 
+      [class.selected]="selectedGender === 'Masculino'" 
+      (click)="selectGender('Masculino')"
+    >
+      <ion-icon name="male-outline"></ion-icon> <!-- O usa el símbolo ♂ -->
+      <p>Masculino</p>
+    </div>
+
+    <div 
+      class="gender-option" 
+      [class.selected]="selectedGender === 'Femenino'" 
+      (click)="selectGender('Femenino')"
+    >
+      <ion-icon name="female-outline"></ion-icon> <!-- O usa el símbolo ♀ -->
+      <p>Femenino</p>
+    </div>
+  </div>
+
+  <ion-button 
+    expand="block" 
+    color="danger" 
+    class="ion-margin-top" 
+    [disabled]="!selectedGender" 
+    (click)="selectGender(selectedGender!)"
+  >
+    Siguiente
+  </ion-button>
+</ion-content>

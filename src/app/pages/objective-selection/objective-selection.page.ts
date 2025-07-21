@@ -1,9 +1,11 @@
-// src/app/pages/objective-selection/objective-selection.page.ts (AHORA SOLO PARA PRINCIPIANTE)
+// src/app/pages/objective-selection/objective-selection.page.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-objective-selection',
@@ -14,40 +16,69 @@ import { Router } from '@angular/router';
 })
 export class ObjectiveSelectionPage implements OnInit {
   availableObjectives: string[] = [
-    'Bajar De Peso',
-    'Aumentar De Peso',
     'Ganar Masa Muscular',
-    'Tonificar El Cuerpo',
+    'Perder Peso',
+    'Mejorar Resistencia',
+    'Mantenerse en Forma',
     'Otros'
   ];
+  selectedObjective: string | null = null; // Cambiado a selección única
+  currentUser: User | null = null;
 
-  selectedObjectives: string[] = [];
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private alertController: AlertController,
+    private loadingController: LoadingController
+  ) { }
 
-  constructor(private router: Router) { }
-
-  ngOnInit() { }
-
-  toggleObjective(objective: string) {
-    const index = this.selectedObjectives.indexOf(objective);
-    if (index > -1) {
-      this.selectedObjectives.splice(index, 1);
-    } else {
-      this.selectedObjectives.push(objective);
-    }
-    console.log('Objetivos seleccionados:', this.selectedObjectives);
+  async ngOnInit() {
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      if (!user) {
+        this.router.navigateByUrl('/login');
+      } else {
+        // Cargar objetivo existente
+        this.authService.getUserData(user.uid).then(userData => {
+          if (userData && userData.objective) {
+            this.selectedObjective = userData.objective;
+          }
+        });
+      }
+    });
   }
 
-  isSelected(objective: string): boolean {
-    return this.selectedObjectives.includes(objective);
+  async selectObjective(objective: string) {
+    this.selectedObjective = objective; // Almacena el objetivo seleccionado
+
+    const loading = await this.loadingController.create({
+      message: 'Guardando objetivo...',
+    });
+    await loading.present();
+
+    try {
+      if (this.currentUser && this.selectedObjective) {
+        await this.authService.updateUserProfileData(this.currentUser.uid, { objective: this.selectedObjective });
+        
+        await loading.dismiss();
+        await this.presentAlert('Objetivo Guardado', `Tu objetivo "${this.selectedObjective}" ha sido guardado.`);
+        this.router.navigateByUrl('/role-selection'); // Navegar a la selección de rol (SIGUIENTE PASO)
+      } else {
+        await loading.dismiss();
+        await this.presentAlert('Error', 'No se pudo guardar el objetivo. Por favor, intenta de nuevo.');
+      }
+    } catch (error: any) {
+      await loading.dismiss();
+      await this.presentAlert('Error', 'Ocurrió un error al guardar el objetivo. Intenta de nuevo.');
+    }
   }
 
-  continueToNextPage() {
-    if (this.selectedObjectives.length > 0) {
-      // ***** NAVEGACIÓN PARA PRINCIPIANTE *****
-      this.router.navigateByUrl('/view-my-routine'); // Redirige a "Mi Rutina"
-    } else {
-      console.warn('Por favor, selecciona al menos un objetivo para continuar.');
-      // Puedes usar un IonToast para mostrar un mensaje más amigable al usuario.
-    }
+  private async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['Ok']
+    });
+    await alert.present();
   }
 }

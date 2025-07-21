@@ -9,15 +9,14 @@ import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-verify-account',
-  templateUrl: './verify-account.page.html', // **CORREGIDO: Apunta al HTML correcto**
+  templateUrl: './verify-account.page.html',
   styleUrls: ['./verify-account.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class VerifyAccountPage implements OnInit { // **CLASE CORREGIDA: VerifyAccountPage**
+export class VerifyAccountPage implements OnInit {
   userEmail: string | null = null;
   currentUser: User | null = null;
-  verificationSent: boolean = false;
 
   constructor(
     private router: Router,
@@ -39,62 +38,40 @@ export class VerifyAccountPage implements OnInit { // **CLASE CORREGIDA: VerifyA
       if (user && !this.userEmail) {
         this.userEmail = user.email;
       }
+      // Si el usuario ya está verificado, redirigir inmediatamente
+      if (user && user.emailVerified) {
+        this.redirectToCorrectPage(user.uid);
+      }
     });
 
-    await new Promise(resolve => setTimeout(resolve, 100));
-
-    if (this.currentUser && !this.verificationSent && !this.currentUser.emailVerified) {
-       await this.sendVerificationEmail();
-    }
+    await new Promise(resolve => setTimeout(resolve, 100)); // Pequeña espera
   }
 
   async sendVerificationEmail() {
     if (!this.currentUser) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'No hay un usuario autenticado para enviar el correo de verificación.',
-        buttons: ['Ok']
-      });
-      await alert.present();
+      await this.presentAlert('Error', 'No hay un usuario autenticado para enviar el correo de verificación.');
       return;
     }
 
     const loading = await this.loadingController.create({
-      message: 'Enviando correo de verificación...',
+      message: 'Reenviando correo de verificación...',
     });
     await loading.present();
 
     try {
       await this.authService.sendVerificationEmail(this.currentUser);
-      this.verificationSent = true;
-      const alert = await this.alertController.create({
-        header: 'Correo Enviado',
-        message: `Se ha enviado un correo de verificación a ${this.userEmail}. Por favor, revisa tu bandeja de entrada y spam.`,
-        buttons: ['Ok']
-      });
-      await alert.present();
-    } catch (error: any) {
-      let errorMessage = 'Error al enviar el correo de verificación.';
-      console.error('Error sending verification email:', error);
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: errorMessage,
-        buttons: ['Ok']
-      });
-      await alert.present();
-    } finally {
       await loading.dismiss();
+      await this.presentAlert('Correo Reenviado', `Se ha reenviado un correo de verificación a ${this.userEmail}. Por favor, revisa tu bandeja de entrada y spam.`);
+    } catch (error: any) {
+      await loading.dismiss();
+      console.error('Error sending verification email:', error);
+      await this.presentAlert('Error', 'Error al reenviar el correo de verificación.');
     }
   }
 
   async checkVerificationStatus() {
     if (!this.currentUser) {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'No hay un usuario autenticado para verificar.',
-        buttons: ['Ok']
-      });
-      await alert.present();
+      await this.presentAlert('Error', 'No hay un usuario autenticado para verificar.');
       return;
     }
 
@@ -104,37 +81,61 @@ export class VerifyAccountPage implements OnInit { // **CLASE CORREGIDA: VerifyA
     await loading.present();
 
     try {
-      await this.currentUser.reload();
+      await this.currentUser.reload(); // Recargar el usuario para obtener el estado más reciente
       if (this.currentUser.emailVerified) {
         await loading.dismiss();
-        const alert = await this.alertController.create({
-          header: 'Verificación Exitosa',
-          message: 'Tu cuenta ha sido verificada correctamente.',
-          buttons: ['Continuar']
-        });
-        await alert.present();
-        this.router.navigate(['/profile-setup-age']);
+        await this.presentAlert('Verificación Exitosa', 'Tu cuenta ha sido verificada correctamente.');
+        // Para entrenadores, marcar perfil como completo aquí
+        const userData = await this.authService.getUserData(this.currentUser.uid);
+        if (userData && userData.role === 'Entrenador') {
+          await this.authService.markProfileAsCompleted(this.currentUser.uid);
+        }
+        await this.redirectToCorrectPage(this.currentUser.uid);
       } else {
         await loading.dismiss();
-        const alert = await this.alertController.create({
-          header: 'No Verificado',
-          message: 'Tu correo aún no ha sido verificado. Por favor, revisa tu bandeja de entrada o intenta reenviar el correo.',
-          buttons: ['Ok']
-        });
-        await alert.present();
+        await this.presentAlert('No Verificado', 'Tu correo aún no ha sido verificado. Por favor, revisa tu bandeja de entrada o intenta reenviar el correo.');
       }
     } catch (error: any) {
       await loading.dismiss();
-      const alert = await this.alertController.create({
-        header: 'Error',
-        message: 'No se pudo verificar el estado del correo. Intenta de nuevo.',
-        buttons: ['Ok']
-      });
-      await alert.present();
+      await this.presentAlert('Error', 'No se pudo verificar el estado del correo. Intenta de nuevo.');
+    }
+  }
+
+  private async redirectToCorrectPage(uid: string) {
+    const userData = await this.authService.getUserData(uid);
+
+    if (userData && userData.role === 'Entrenador') {
+      // Entrenadores, si su email está verificado, se considera su perfil completo y van al login
+      this.router.navigateByUrl('/login');
+    } else if (userData && userData.profileCompleted) {
+      // Si el perfil ya está completo (Principiante/Avanzado que ya terminó el flujo)
+      switch (userData.role) {
+        case 'Principiante':
+          this.router.navigateByUrl('/view-my-routine'); // Página de inicio para Principiantes
+          break;
+        case 'Avanzado': // 'Intermedio' ahora es 'Avanzado'
+          this.router.navigateByUrl('/select-routine'); // Página de inicio para Avanzados
+          break;
+        default:
+          this.router.navigateByUrl('/login'); // Fallback
+          break;
+      }
+    } else {
+      // Si el perfil no está completo (Principiante/Avanzado nuevo), redirigir a profile-setup-gender
+      this.router.navigateByUrl('/profile-setup-gender');
     }
   }
 
   goToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  private async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['Ok']
+    });
+    await alert.present();
   }
 }

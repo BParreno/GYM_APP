@@ -1,7 +1,8 @@
+<!-- src/app/pages/profile/profile-setup-weight/profile-setup-weight.page.html -->
 <ion-header>
   <ion-toolbar color="dark">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/" text="Regresar" color="danger"></ion-back-button>
+      <ion-back-button defaultHref="/profile-setup-height" text="Regresar" color="danger"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -22,27 +23,23 @@
     </ion-segment-button>
   </ion-segment>
 
-  <!-- Scroll horizontal para los valores -->
-  <div class="scroll-container">
-    <div class="ruler">
-      <div
-        *ngFor="let w of weights"
-        [class.active]="w === weight"
-        (click)="selectWeight(w)"
-      >
-        {{ w }}
-      </div>
+  <form [formGroup]="weightForm" (ngSubmit)="onNext()">
+    <ion-item class="custom-item">
+      <ion-label position="floating">Peso ({{ unit | uppercase }})</ion-label>
+      <ion-input type="number" formControlName="weight" min="20" max="300"></ion-input>
+    </ion-item>
+    <div *ngIf="weightForm.get('weight')?.touched && weightForm.get('weight')?.errors?.['required']" class="error-message">
+      El peso es requerido.
     </div>
-    <div class="indicator">▼</div>
-  </div>
+    <div *ngIf="weightForm.get('weight')?.touched && (weightForm.get('weight')?.errors?.['min'] || weightForm.get('weight')?.errors?.['max'])" class="error-message">
+      El peso debe estar entre 20 y 300 kg/lb.
+    </div>
+    <div *ngIf="weightForm.get('weight')?.touched && weightForm.get('weight')?.errors?.['pattern']" class="error-message">
+      Solo se permiten números.
+    </div>
 
-  <div class="weight-display">
-    <h1>{{ weight }}</h1>
-    <span>{{ unit | uppercase }}</span>
-  </div>
-
-  <ion-button expand="full" shape="round" class="continue-btn" (click)="saveWeight()">
-    Continuar
-  </ion-button>
-
+    <ion-button expand="block" type="submit" color="danger" [disabled]="weightForm.invalid">
+      Siguiente
+    </ion-button>
+  </form>
 </ion-content>
