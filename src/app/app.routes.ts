@@ -1,13 +1,13 @@
-
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { RegisterPage } from './pages/register/register.page';
+// No es necesario importar RegisterPage aquí si solo se usa con loadComponent
 
 
 export const routes: Routes = [
-  // Ruta inicial para la demo: Abrir en Seleccionar Estatura
+  // Ruta inicial: Abrir en Login
   {
     path: '',
-    redirectTo: 'login', // <-- CAMBIADO: Iniciar en Login
+    redirectTo: 'login', // Iniciar en Login
     pathMatch: 'full',
   },
   // Rutas de configuración de perfil (las de tu compañero)
@@ -63,11 +63,11 @@ export const routes: Routes = [
     path: 'register',
     loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage)
   },
-
-  {
-  path: 'register',
-  loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
-},
+  // La ruta 'register' estaba duplicada en tu código original, la elimino para evitar conflictos
+  // {
+  //   path: 'register',
+  //   loadComponent: () => import('./pages/register/register.page').then(m => m.RegisterPage)
+  // },
   {
     path: 'profile-setup-age',
     loadComponent: () => import('./pages/profile/profile-setup-age/profile-setup-age.page').then( m => m.ProfileSetupAgePage)
@@ -75,12 +75,14 @@ export const routes: Routes = [
   {
     path: 'change-password',
     loadComponent: () => import('./pages/change-password/change-password.page').then( m => m.ChangePasswordPage)
+  },
+  // **NUEVAS RUTAS DE VERIFICACIÓN Y RECUPERACIÓN DE CUENTA (SIN SUFIJO -CODE)**
+  {
+    path: 'verify-account',
+    loadComponent: () => import('./pages/verify-account/verify-account.page').then( m => m.VerifyAccountPage)
+  },
+  {
+    path: 'account-recovery',
+    loadComponent: () => import('./pages/account-recovery/account-recovery.page').then( m => m.AccountRecoveryPage)
   }
-
-
-
-
-
-  // ----------------------------------------------------------
 ];
-

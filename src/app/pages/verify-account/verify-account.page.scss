@@ -1,0 +1,52 @@
+/* src/app/pages/verify-account/verify-account.page.scss */
+ion-content {
+  --background: #f4f5f8; // Un color de fondo suave
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-icon {
+  font-size: 80px; // Tamaño grande para el icono
+  color: var(--ion-color-danger); // Usa tu color principal de la app
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+strong {
+  color: var(--ion-color-dark);
+}
+
+ion-button {
+  margin-top: 15px;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2); // Sigue tu estilo de botón
+}
+
+a {
+  cursor: pointer;
+  color: var(--ion-color-danger); // Color para enlaces
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ion-text {
+  margin-top: 30px;
+}

@@ -1,55 +1,9 @@
-ion-content {
-  background-color: #ffffff;
-}
+/* src/app/pages/register/register.page.scss */
 
-ion-item.custom-item {
-  --background: #bcb1b1;
-  --border-color: #ccc;
-  --border-width: 2px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-  --highlight-background: #f1f1f1;
-}
-
-ion-input {
-  color: #333;
-}
-
-ion-label {
-  color: #100b0b;
-}
-
-ion-button {
-  margin-top: 20px;
-  --border-radius: 8px;
-  --box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
-}
-
-.custom-checkbox {
-  margin-top: 10px;
+.error-message {
+  color: var(--ion-color-danger); /* Usa el color de peligro de Ionic */
+  font-size: 0.8em;
+  margin-top: -10px; // Acercar al campo que lo causó
   margin-bottom: 10px;
-}
-
-.checkbox-label {
-  font-size: 14px;
-  color: #444;
-}
-
-.checkbox-label a {
-  color: #d32f2f;
-  text-decoration: underline;
-}
-
-a {
-  cursor: pointer;
-  color: #c62828;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-ion-footer {
-  background-color: #f1f1f1;
+  padding-left: 16px; // Alinea con el padding de ion-item
 }

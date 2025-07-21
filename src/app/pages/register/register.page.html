@@ -10,28 +10,52 @@
       <ion-label position="floating">Nombre de usuario</ion-label>
       <ion-input type="text" formControlName="username"></ion-input>
     </ion-item>
+    <div *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.errors?.['required']" class="error-message">
+      El nombre de usuario es requerido.
+    </div>
 
     <ion-item class="custom-item">
       <ion-label position="floating">Correo electrónico</ion-label>
       <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
+    <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']" class="error-message">
+      El correo electrónico es requerido.
+    </div>
+    <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['email']" class="error-message">
+      Formato de correo electrónico inválido.
+    </div>
 
     <ion-item class="custom-item">
       <ion-label position="floating">Contraseña</ion-label>
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
+    <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']" class="error-message">
+      La contraseña es requerida.
+    </div>
+    <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['minlength']" class="error-message">
+      La contraseña debe tener al menos 6 caracteres.
+    </div>
 
     <ion-item class="custom-item">
       <ion-label position="floating">Confirmar contraseña</ion-label>
       <ion-input type="password" formControlName="confirmPassword"></ion-input>
     </ion-item>
+    <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.get('confirmPassword')?.errors?.['required']" class="error-message">
+      Confirma tu contraseña.
+    </div>
+    <div *ngIf="registerForm.get('confirmPassword')?.touched && registerForm.errors?.['mismatch']" class="error-message">
+      Las contraseñas no coinciden.
+    </div>
 
     <ion-item class="custom-checkbox" lines="none">
       <ion-checkbox formControlName="acceptedPolicy" slot="start"></ion-checkbox>
       <ion-label class="checkbox-label">
-        Acepto las <a (click)="showPrivacyPolicy()">políticas de privacidad</a>
+        Acepto las políticas de privacidad. <a (click)="showPrivacyPolicy()">Conocer más.</a>
       </ion-label>
     </ion-item>
+    <div *ngIf="registerForm.get('acceptedPolicy')?.touched && registerForm.get('acceptedPolicy')?.errors?.['requiredTrue']" class="error-message">
+      Debes aceptar las políticas de privacidad.
+    </div>
 
     <ion-button expand="block" type="submit" color="danger" [disabled]="registerForm.invalid">
       Registrarse
@@ -42,11 +66,3 @@
     <p>¿Ya tienes una cuenta? <a (click)="goToLogin()">Iniciar sesión</a></p>
   </ion-text>
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar>
-    <ion-text class="ion-text-center" color="medium">
-      <p>Al registrarte, aceptas nuestras <a (click)="showPrivacyPolicy()">políticas de privacidad</a>.</p>
-    </ion-text>
-  </ion-toolbar>
-</ion-footer>

@@ -1,0 +1,70 @@
+/* src/app/pages/account-recovery/account-recovery.page.scss */
+ion-content {
+  --background: #f4f5f8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-icon {
+  font-size: 80px;
+  color: var(--ion-color-danger);
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+ion-item.custom-item {
+  --background: #bcb1b1;
+  --border-color: #ccc;
+  --border-width: 2px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  --highlight-background: #f1f1f1;
+}
+
+ion-input {
+  color: #333;
+}
+
+ion-label {
+  color: #100b0b;
+}
+
+ion-button {
+  margin-top: 20px;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+}
+
+a {
+  cursor: pointer;
+  color: var(--ion-color-danger);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 0.8em;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  padding-left: 16px;
+}

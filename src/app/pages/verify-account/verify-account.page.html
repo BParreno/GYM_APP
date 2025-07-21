@@ -1,0 +1,35 @@
+<!-- src/app/pages/verify-account/verify-account.page.html -->
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/register"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Verificar Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+  <ion-icon name="mail-open-outline" size="large" color="primary" class="ion-margin-bottom"></ion-icon>
+  
+  <h1 class="ion-text-center">¡Verifica tu correo electrónico!</h1>
+  <p class="ion-text-center">
+    Hemos enviado un enlace de verificación a: <br>
+    <strong>{{ userEmail || 'tu correo electrónico' }}</strong>
+  </p>
+  <p class="ion-text-center">
+    Por favor, revisa tu bandeja de entrada y la carpeta de spam. Haz clic en el enlace para verificar tu cuenta.
+  </p>
+
+  <ion-button expand="block" color="danger" class="ion-margin-top" (click)="checkVerificationStatus()">
+    Ya verifiqué mi correo
+  </ion-button>
+
+  <ion-button expand="block" fill="outline" color="medium" class="ion-margin-top" (click)="sendVerificationEmail()">
+    Reenviar enlace de verificación
+  </ion-button>
+
+  <ion-text class="ion-text-center ion-margin-top" color="medium">
+    <p>¿No recibiste el correo o tienes problemas? Asegúrate de que tu correo sea correcto y revisa la carpeta de spam.</p>
+    <p><a (click)="goToLogin()">Volver al inicio de sesión</a></p>
+  </ion-text>
+</ion-content>

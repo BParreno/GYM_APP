@@ -1,0 +1,39 @@
+<!-- src/app/pages/account-recovery/account-recovery.page.html -->
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Recuperar Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+  <ion-icon name="lock-closed-outline" size="large" color="primary" class="ion-margin-bottom"></ion-icon>
+  
+  <h1 class="ion-text-center">¿Olvidaste tu contraseña?</h1>
+  <p class="ion-text-center">
+    Introduce tu correo electrónico asociado a tu cuenta para recibir un enlace para restablecer tu contraseña.
+  </p>
+
+  <form [formGroup]="recoveryForm" (ngSubmit)="onSendRecoveryCode()">
+    <ion-item class="custom-item">
+      <ion-label position="floating">Correo electrónico</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <div *ngIf="recoveryForm.get('email')?.touched && recoveryForm.get('email')?.errors?.['required']" class="error-message">
+      El correo electrónico es requerido.
+    </div>
+    <div *ngIf="recoveryForm.get('email')?.touched && recoveryForm.get('email')?.errors?.['email']" class="error-message">
+      Formato de correo electrónico inválido.
+    </div>
+
+    <ion-button expand="block" type="submit" color="danger" [disabled]="recoveryForm.invalid">
+      Enviar enlace de recuperación
+    </ion-button>
+  </form>
+
+  <ion-text class="ion-text-center ion-margin-top" color="medium">
+    <p>¿Recordaste tu contraseña? <a (click)="goToLogin()">Iniciar sesión</a></p>
+  </ion-text>
+</ion-content>
