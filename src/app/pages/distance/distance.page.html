@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Distancia BLE</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Distancia actuaal</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <h1 style="font-size: 2.5rem; text-align: center">{{ distancia }}</h1>
+    </ion-card-content>
+  </ion-card>
+
+  <a expand="block" (click)="conectarYLeer()">
+    Conectar al ESP32
+  </a>
+</ion-content>

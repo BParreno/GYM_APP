@@ -9,10 +9,10 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   // Rutas de configuración de perfil
- /* {
+  {
     path: 'profile-setup-gender', // NUEVA PÁGINA: Selección de Sexo
     loadComponent: () => import('./pages/profile/profile-setup-gender/profile-setup-gender.page').then( m => m.ProfileSetupGenderPage)
-  },*/
+  },
   {
     path: 'profile-setup-age',
     loadComponent: () => import('./pages/profile/profile-setup-age/profile-setup-age.page').then( m => m.ProfileSetupAgePage)
@@ -40,11 +40,7 @@ export const routes: Routes = [
     path: 'objective-selection',
     loadComponent: () => import('./pages/objective-selection/objective-selection.page').then(m => m.ObjectiveSelectionPage)
   },
-  // objective-selection-intermedio YA NO SE USA
-  // {
-  //   path: 'objective-selection-intermedio',
-  //   loadComponent: () => import('./pages/objective-selection-intermedio/objective-selection-intermedio.page').then(m => m.ObjectiveSelectionIntermedioPage)
-  // },
+  // objective-selection-intermedio YA NO SE USA (eliminada)
   {
     path: 'view-my-routine',
     loadComponent: () => import('./pages/view-my-routine/view-my-routine.page').then(m => m.ViewMyRoutinePage)
@@ -76,10 +72,9 @@ export const routes: Routes = [
   {
     path: 'account-recovery',
     loadComponent: () => import('./pages/account-recovery/account-recovery.page').then( m => m.AccountRecoveryPage)
-  },  {
-    path: 'profile-setup-gender',
-    loadComponent: () => import('./pages/profile/profile-setup-gender/profile-setup-gender.page').then( m => m.ProfileSetupGenderPage)
+  },
+  {
+    path: 'distance', // Nueva ruta añadida desde el merge
+    loadComponent: () => import('./pages/distance/distance.page').then( m => m.DistancePage)
   }
-
-  // verify-account-code y account-recovery-code YA NO SE USAN
 ];
