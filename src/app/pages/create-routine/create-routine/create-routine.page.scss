@@ -1,0 +1,39 @@
+ion-content {
+  --background: #1E1E1E;
+  color: #FFFFFF;
+
+  ion-item {
+    --background: transparent;
+  }
+}
+
+.exercise-item {
+  border: 1px solid #F3152D;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  background: #2A2A2A;
+
+  h3 {
+    margin: 0 0 5px 0;
+    color: #FFFFFF;
+  }
+
+  ion-item {
+    --background: transparent;
+    margin-top: 5px;
+
+    ion-label,
+    ion-input {
+      color: #FFFFFF;
+    }
+  }
+
+  ion-button {
+    margin-top: 10px;
+  }
+}
+
+.save-btn {
+  margin-top: 20px;
+}
