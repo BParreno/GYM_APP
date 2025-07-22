@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/select-routine"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear Rutina</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" color="dark">
+
+  <!-- Spinner mientras carga -->
+  <ion-spinner
+    *ngIf="loading"
+    name="crescent"
+    style="display: block; margin: 0 auto; margin-top: 40%;"
+  ></ion-spinner>
+  <p *ngIf="loading" style="text-align: center; color: white;">Cargando rutina...</p>
+
+  <!-- Formulario solo si NO está cargando -->
+  <div *ngIf="!loading">
+    <!-- Nombre de rutina -->
+    <ion-item>
+      <ion-label position="floating" color="light">Nombre de la rutina</ion-label>
+      <ion-input [(ngModel)]="name"></ion-input>
+    </ion-item>
+
+    <!-- Selector de músculos -->
+    <ion-item>
+      <ion-label color="light">Músculos</ion-label>
+      <ion-select [(ngModel)]="muscles" interface="popover" multiple="true">
+        <ion-select-option *ngFor="let o of exerciseOptions" [value]="o.muscle">
+          {{ o.muscle }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Botón para agregar ejercicios a partir de la selección -->
+    <ion-button
+      expand="block"
+      color="danger"
+      (click)="addExercise()"
+      [disabled]="muscles.length === 0"
+    >
+      Agregar ejercicios
+    </ion-button>
+
+    <!-- Lista de ejercicios seleccionados -->
+    <div *ngFor="let e of exercises; let i = index" class="exercise-item">
+      <h3>{{ e.muscle }} – {{ e.name }}</h3>
+      <ion-item>
+        <ion-label>Series</ion-label>
+        <ion-input type="number" [(ngModel)]="e.series"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Reps</ion-label>
+        <ion-input type="number" [(ngModel)]="e.reps"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Duración (min)</ion-label>
+        <ion-input type="number" [(ngModel)]="e.durationMin"></ion-input>
+      </ion-item>
+      <ion-button color="danger" size="small" (click)="removeExercise(i)">
+        Eliminar
+      </ion-button>
+    </div>
+
+    <!-- Botón para guardar (prohíbe guardar sin ejercicios) -->
+    <ion-button
+      expand="block"
+      class="save-btn"
+      color="danger"
+      (click)="save()"
+      [disabled]="exercises.length === 0"
+    >
+      Guardar Rutina
+    </ion-button>
+  </div>
+</ion-content>
