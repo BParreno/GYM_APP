@@ -1,0 +1,33 @@
+/* src/app/components/privacy-policy-modal/privacy-policy-modal.component.scss */
+ion-header {
+  ion-toolbar {
+    --background: var(--ion-color-primary, #3880ff); // Color de la barra superior del modal
+    color: var(--ion-color-primary-contrast, #ffffff); // Color del texto de la barra superior
+  }
+}
+
+ion-content {
+  --background: var(--ion-background-color, #ffffff); // Fondo del contenido del modal
+}
+
+.policy-content {
+  padding: 10px;
+  line-height: 1.6;
+  color: #ffffff; // CAMBIO CLAVE: Color de texto a blanco para visibilidad
+}
+
+.policy-content h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: #ffffff; // CAMBIO CLAVE: Color para los títulos de sección a blanco
+}
+
+.policy-content ul {
+  list-style-type: disc;
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.policy-content ul li {
+  margin-bottom: 5px;
+}

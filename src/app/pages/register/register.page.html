@@ -48,7 +48,7 @@
 
     <ion-item lines="none" class="ion-margin-top">
       <ion-checkbox slot="start" formControlName="acceptPolicies"></ion-checkbox>
-      <ion-label>Acepto las <a href="#" (click)="$event.preventDefault()">políticas de privacidad</a></ion-label> <!-- CORREGIDO: Eliminado el comentario en el click -->
+      <ion-label>Acepto las <a (click)="presentPrivacyPolicy()">políticas de privacidad</a></ion-label>
     </ion-item>
     <div *ngIf="registerForm.get('acceptPolicies')?.invalid && registerForm.get('acceptPolicies')?.touched" class="ion-text-danger ion-padding-start">
       Debes aceptar las políticas de privacidad.
@@ -60,11 +60,12 @@
   </form>
 
   <ion-text class="ion-text-center ion-padding-top">
-    <p>¿Ya tienes una cuenta? <a routerLink="/login">Inicia Sesión</a></p>
+    <p>¿Ya tienes una cuenta? <a routerLink="/login">Iniciar Sesión</a></p>
   </ion-text>
 
   <ion-button expand="block" fill="outline" class="ion-margin-top" (click)="presentTrainerCodePrompt()">
     ¿Eres entrenador? Haz click aquí
   </ion-button>
 
+  <!-- ELIMINADO: EL DIV OCULTO CON EL CONTENIDO DE LAS POLÍTICAS DE PRIVACIDAD -->
 </ion-content>

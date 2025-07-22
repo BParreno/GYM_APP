@@ -1,0 +1,16 @@
+<!-- src/app/components/privacy-policy-modal/privacy-policy-modal.component.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Políticas de Privacidad</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Renderizar el contenido HTML usando [innerHTML] -->
+  <div class="policy-content" [innerHTML]="policyContentHtml"></div>
+</ion-content>
