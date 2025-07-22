@@ -1,0 +1,56 @@
+{
+  "Bíceps": [
+    { "name": "Curl con mancuernas", "durationMin": 5 },
+    { "name": "Curl barra", "durationMin": 6 }
+  ],
+  "Tríceps": [
+    { "name": "Fondos", "durationMin": 5 },
+    { "name": "Extensión por encima de la cabeza", "durationMin": 6 }
+  ],
+  "Cuádriceps": [
+    { "name": "Sentadilla", "durationMin": 7 },
+    { "name": "Prensa", "durationMin": 6 }
+  ],
+  "Glúteos": [
+    { "name": "Hip Thrust", "durationMin": 7 },
+    { "name": "Puente glúteo", "durationMin": 5 }
+  ],
+  "Pectoral": [
+    { "name": "Press banca", "durationMin": 7 },
+    { "name": "Press inclinado", "durationMin": 6 }
+  ],
+  "Espalda": [
+    { "name": "Remo", "durationMin": 7 },
+    { "name": "Jalón al pecho", "durationMin": 6 }
+  ],
+  "Hombros": [
+    { "name": "Press militar", "durationMin": 6 },
+    { "name": "Elevaciones laterales", "durationMin": 5 }
+  ],
+  "Abdominales": [
+    { "name": "Crunch", "durationMin": 5 },
+    { "name": "Plancha", "durationMin": 5 }
+  ],
+  "Cardio": [
+    { "name": "Correr", "durationMin": 10 },
+    { "name": "Saltos", "durationMin": 8 }
+  ],
+  "Gemelos": [
+    { "name": "Elevación de talones", "durationMin": 5 }
+  ],
+  "Isquiotibiales": [
+    { "name": "Peso muerto piernas rígidas", "durationMin": 7 }
+  ],
+  "Trapecio": [
+    { "name": "Encogimiento de hombros", "durationMin": 5 }
+  ],
+  "Antebrazos": [
+    { "name": "Curl inverso", "durationMin": 5 }
+  ],
+  "Dorsal": [
+    { "name": "Pull-over", "durationMin": 6 }
+  ],
+  "Adductores": [
+    { "name": "Aductor máquina", "durationMin": 5 }
+  ]
+}
