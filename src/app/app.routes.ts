@@ -73,10 +73,8 @@ export const routes: Routes = [
     path: 'account-recovery',
     loadComponent: () => import('./pages/account-recovery/account-recovery.page').then( m => m.AccountRecoveryPage)
   },
+  
   {
-    path: 'distance', // Nueva ruta añadida desde el merge
-    loadComponent: () => import('./pages/distance/distance.page').then( m => m.DistancePage)
-  },  {
     path: 'profile',
     loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage)
   },

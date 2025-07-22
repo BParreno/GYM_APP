@@ -12,8 +12,15 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage {
-  user = {
-    photoURL: 'https://via.placeholder.com/150',
+  user: {
+    photoURL: string | null;
+    username: string;
+    email: string;
+    weight: number;
+    age: number;
+    height: number;
+  } = {
+    photoURL: null,
     username: 'Mary Sunderland',
     email: 'mary2001@example.com',
     weight: 75,
@@ -22,17 +29,26 @@ export class ProfilePage {
   };
 
   async changeProfilePicture() {
-    try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.DataUrl,
-        source: CameraSource.Photos, // 📂 Selecciona desde la galería
-      });
+  try {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Photos,
+    });
 
-      this.user.photoURL = image.dataUrl!;
-    } catch (error) {
-      console.log('Error seleccionando imagen:', error);
+    if (image.dataUrl !== undefined) {
+      this.user.photoURL = image.dataUrl;
+    } else {
+      console.warn('No se recibió una imagen válida.');
     }
+  } catch (error) {
+    console.log('Error seleccionando imagen:', error);
+  }
+}
+
+
+  getProfileImage(): string {
+    return this.user.photoURL || 'assets/images/img_avatar.png';
   }
 }

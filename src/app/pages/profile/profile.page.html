@@ -4,13 +4,15 @@
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Cabecera roja con datos principales -->
   <div class="profile-header">
-    <h1 class="profile-title">Perfil</h1>
-    <img
-      [src]="user.photoURL"
-      alt="Foto de perfil"
-      class="profile-pic"
-      (click)="changeProfilePicture()"
-    />
+
+   <img
+  [src]="getProfileImage()"
+  alt="Foto de perfil"
+  class="profile-pic"
+  (click)="changeProfilePicture()"
+/>
+
+
     <h2>{{ user.username }}</h2>
     <p>{{ user.email }}</p>
   </div>
