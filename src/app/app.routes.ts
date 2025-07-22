@@ -9,6 +9,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   // Rutas de configuración de perfil
+
+  {
+    path: 'profile', // NUEVA PÁGINA: Selección de Sexo
+    loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage)
+  },
   {
     path: 'profile-setup-gender', // NUEVA PÁGINA: Selección de Sexo
     loadComponent: () => import('./pages/profile/profile-setup-gender/profile-setup-gender.page').then( m => m.ProfileSetupGenderPage)
@@ -45,6 +50,14 @@ export const routes: Routes = [
     path: 'view-my-routine',
     loadComponent: () => import('./pages/view-my-routine/view-my-routine.page').then(m => m.ViewMyRoutinePage)
   },
+
+
+{
+  path: 'view-my-routine/:id',
+  loadComponent: () => import('./pages/view-my-routine/view-my-routine.page').then(m => m.ViewMyRoutinePage)
+}
+,
+
   {
     path: 'select-routine',
     loadComponent: () => import('./pages/select-routine/select-routine.page').then(m => m.SelectRoutinePage)
@@ -72,5 +85,10 @@ export const routes: Routes = [
   {
     path: 'account-recovery',
     loadComponent: () => import('./pages/account-recovery/account-recovery.page').then( m => m.AccountRecoveryPage)
+  },
+  {
+    path: 'create-routine',
+    loadComponent: () => import('./pages/create-routine/create-routine/create-routine.page').then( m => m.CreateRoutinePage)
   }
+
 ];
