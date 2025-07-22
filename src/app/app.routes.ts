@@ -76,5 +76,13 @@ export const routes: Routes = [
   {
     path: 'distance', // Nueva ruta añadida desde el merge
     loadComponent: () => import('./pages/distance/distance.page').then( m => m.DistancePage)
+  },  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile.page').then( m => m.ProfilePage)
+  },
+  {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings/settings.page').then( m => m.SettingsPage)
   }
+
 ];
