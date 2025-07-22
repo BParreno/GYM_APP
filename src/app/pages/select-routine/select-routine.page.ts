@@ -88,4 +88,8 @@ export class SelectRoutinePage implements OnInit {
   goToCreate() {
     this.nav.navigateForward('/create-routine');
   }
+
+goToProfile() {
+  this.nav.navigateForward('/profile');
+}
 }
