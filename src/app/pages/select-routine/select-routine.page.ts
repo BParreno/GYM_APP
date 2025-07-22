@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  ActionSheetController,
+  IonicModule,
+  NavController,
+  ToastController,
+} from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Firestore, collection, collectionData, doc, deleteDoc } from '@angular/fire/firestore';
+import { Auth, authState, User } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface Routine {
   id: string;
   name: string;
-  duration: string;
-  exercises: number;
-  imageUrl: string; // <-- AÑADIDO: Propiedad para la URL de la imagen
+  totalDuration: number;
+  exercises: any[];
 }
 
 @Component({
@@ -17,42 +23,73 @@ interface Routine {
   templateUrl: './select-routine.page.html',
   styleUrls: ['./select-routine.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule]
 })
 export class SelectRoutinePage implements OnInit {
+  user: User | null = null;
+  routines$!: Observable<Routine[]>;
 
-  availableRoutines: Routine[] = [
-    { id: 'p1', name: 'Rutina de Piernas Avanzada', duration: '75 minutos', exercises: 6, imageUrl: 'assets/images/woman-gym 1.png' },
-    { id: 'bh1', name: 'Rutina de Brazos y Hombros', duration: '50 minutos', exercises: 8, imageUrl: 'assets/images/woman-gym 4.png' },
-    { id: 'fb1', name: 'Rutina Full Body Express', duration: '40 minutos', exercises: 7, imageUrl: 'assets/images/woman-gym 2.png' },
-    { id: 'c1', name: 'Rutina de Cardio Intenso', duration: '30 minutos', exercises: 4, imageUrl: 'assets/images/woman-gym 3.png' }
-  ];
-
-  selectedRoutine: Routine | null = null;
-
-  constructor(private router: Router) { }
-
-  ngOnInit() { }
-
-  selectSingleRoutine(routine: Routine) {
-    if (this.selectedRoutine && this.selectedRoutine.id === routine.id) {
-      this.selectedRoutine = null;
-    } else {
-      this.selectedRoutine = routine;
-    }
-    console.log('Rutina seleccionada:', this.selectedRoutine ? this.selectedRoutine.name : 'Ninguna');
+  constructor(
+    private auth: Auth,
+    private firestore: Firestore,
+    private nav: NavController,
+    private actionCtrl: ActionSheetController,
+    private toastCtrl: ToastController
+  ) {
+    authState(this.auth).subscribe(u => {
+      this.user = u;
+      if (u) this.loadRoutines();
+    });
   }
 
-  isSelected(routine: Routine): boolean {
-    return this.selectedRoutine?.id === routine.id;
+  ngOnInit(): void {
+    // Método requerido pero podemos mantenerlo vacío
   }
 
-  viewSelectedRoutine() {
-    if (this.selectedRoutine) {
-      console.log(`Navegando para ver la rutina: ${this.selectedRoutine.name}`);
-      this.router.navigateByUrl('/view-my-routine');
-    } else {
-      console.warn('Ninguna rutina seleccionada para ver.');
-    }
+  ionViewWillEnter(): void {
+    // Asegura recarga al volver a la vista
+    this.loadRoutines();
   }
+
+  loadRoutines(): void {
+    if (!this.user) return;
+    const col = collection(this.firestore, `users/${this.user.uid}/routines`);
+    this.routines$ = collectionData(col, { idField: 'id' }).pipe(
+      map((docs: any[]) => docs as Routine[])
+    );
+  }
+
+  async openActions(r: Routine) {
+    const action = await this.actionCtrl.create({
+      header: r.name,
+      buttons: [
+        { text: 'Ver', icon: 'eye', handler: () => this.nav.navigateForward(`/view-my-routine/${r.id}`) },
+        { text: 'Modificar', icon: 'create', handler: () => this.nav.navigateForward(`/create-routine?edit=${r.id}`) },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => this.deleteRoutine(r)
+        },
+        { text: 'Cancelar', role: 'cancel' }
+      ]
+    });
+    await action.present();
+  }
+
+  async deleteRoutine(r: Routine) {
+    const docRef = doc(this.firestore, `users/${this.user?.uid}/routines/${r.id}`);
+    await deleteDoc(docRef);
+    const t = await this.toastCtrl.create({ message: 'Rutina eliminada ✅', duration: 2000, position: 'bottom' });
+    await t.present();
+    this.loadRoutines();
+  }
+
+  goToCreate() {
+    this.nav.navigateForward('/create-routine');
+  }
+
+goToProfile() {
+  this.nav.navigateForward('/profile');
+}
 }

@@ -2,9 +2,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
-import { IonicModule, AlertController, LoadingController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { IonicModule, AlertController, LoadingController, ModalController } from '@ionic/angular'; // Importar ModalController
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { PrivacyPolicyModalComponent } from 'src/app/components/privacy-policy-modal/privacy-policy-modal.component'; // Importar el componente del modal
 
 // Custom validator to check if passwords match
 export function passwordMatchValidator(): ValidatorFn {
@@ -28,7 +29,7 @@ export function passwordMatchValidator(): ValidatorFn {
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule, RouterLink]
 })
 export class RegisterPage implements OnInit {
   registerForm: FormGroup;
@@ -39,19 +40,19 @@ export class RegisterPage implements OnInit {
     private authService: AuthService,
     private router: Router,
     private alertController: AlertController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private modalController: ModalController // Inyectar ModalController
   ) {
     this.registerForm = this.fb.group({
       fullName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
-      acceptPolicies: [false, Validators.requiredTrue] // Nuevo campo para las políticas
+      acceptPolicies: [false, Validators.requiredTrue]
     }, { validators: passwordMatchValidator() });
   }
 
   ngOnInit() {
-    // Re-check password match on value changes
     this.registerForm.get('password')?.valueChanges.subscribe(() => {
       this.registerForm.get('confirmPassword')?.updateValueAndValidity();
     });
@@ -78,19 +79,13 @@ export class RegisterPage implements OnInit {
       await loading.dismiss();
 
       if (userCredential.user) {
-        // Enviar email de verificación de Firebase
-        // CORREGIDO: Llamar a sendEmailVerification sin el parámetro user
         await this.authService.sendEmailVerification();
 
-        // Asignar rol inicial en Firestore (solo para entrenadores aquí)
         if (isTrainer) {
           await this.authService.assignInitialRole(userCredential.user.uid, 'Entrenador');
-          // Para entrenadores, el perfil se marca como completo después de la verificación del email
-          // Esto se gestionará en verify-account.page.ts
         }
 
         await this.presentAlert('Registro Exitoso', 'Tu cuenta ha sido creada. Por favor, verifica tu correo electrónico para continuar.');
-        // Redirigir a la página de verificación de cuenta
         this.router.navigate(['/verify-account'], { queryParams: { email: email } });
       }
 
@@ -125,7 +120,6 @@ export class RegisterPage implements OnInit {
           text: 'Confirmar',
           handler: async (data) => {
             if (data.trainerCode === this.TRAINER_CODE) {
-              // Si el código es correcto, registrar como entrenador
               await this.onRegister(true);
             } else {
               await this.presentAlert('Código Incorrecto', 'El código de entrenador es incorrecto.');
@@ -135,6 +129,57 @@ export class RegisterPage implements OnInit {
       ]
     });
     await alert.present();
+  }
+
+  // Contenido HTML de las políticas de privacidad como una cadena de texto
+  private privacyPolicyHtmlContent: string = `
+    <p><strong>Fecha de entrada en vigor: 22 de julio de 2025</strong></p>
+    <p>En nuestra aplicación de gimnasio, valoramos y respetamos tu privacidad. Esta Política de Privacidad describe cómo recopilamos, usamos y protegemos la información que proporcionas al utilizar nuestra aplicación móvil.</p>
+
+    <h3>1. Información que recopilamos</h3>
+    <p>La información personal que recopilamos incluye tu dirección de correo electrónico, nombre completo, sexo, edad, estatura, peso y objetivos de entrenamiento. Esta información es solicitada al momento de registrarte o configurar tu perfil en nuestra aplicación.</p>
+
+    <h3>2. Uso de la información</h3>
+    <p>Utilizamos tu información personal únicamente para los siguientes fines:</p>
+    <ul>
+      <li>Creación y autenticación de tu cuenta.</li>
+      <li>Personalización de tu experiencia de entrenamiento y asignación de rutinas.</li>
+      <li>Envío de notificaciones relacionadas con la app (opcional, según tus preferencias).</li>
+      <li>Mejorar la experiencia del usuario en la aplicación y ofrecerte un servicio más relevante.</li>
+    </ul>
+    <p>No compartimos tu información personal con terceros para fines publicitarios.</p>
+
+    <h3>3. Almacenamiento y seguridad</h3>
+    <p>Tu información personal se almacena de forma segura utilizando métodos de protección estándar de la industria para evitar accesos no autorizados, pérdidas o filtraciones de datos.</p>
+
+    <h3>4. Derechos del usuario</h3>
+    <p>Tienes derecho a:</p>
+    <ul>
+      <li>Acceder a la información que hemos recopilado sobre ti.</li>
+      <li>Solicitar la corrección o actualización de tus datos.</li>
+      <li>Solicitar la eliminación de tu cuenta y toda tu información asociada.</li>
+      <li>Revocar tu consentimiento en cualquier momento.</li>
+    </ul>
+    <p>Puedes ejercer estos derechos contactándonos a: biparreno@sudamericano.edu.ec</p>
+
+    <h3>5. Cambios en la política</h3>
+    <p>Nos reservamos el derecho de modificar esta Política de Privacidad en cualquier momento. Te notificaremos sobre cualquier cambio publicando la nueva versión en esta misma aplicación o por correo electrónico.</p>
+
+    <h3>6. Contacto</h3>
+    <p>Si tienes preguntas o inquietudes sobre esta política, puedes contactarnos a: biparreno@sudamericano.edu.ec</p>
+  `;
+
+  // Método para mostrar las políticas de privacidad como un modal
+  async presentPrivacyPolicy() {
+    const modal = await this.modalController.create({
+      component: PrivacyPolicyModalComponent,
+      // Pasamos el contenido HTML como una propiedad al componente del modal
+      componentProps: {
+        policyContentHtml: this.privacyPolicyHtmlContent
+      },
+      cssClass: 'my-custom-modal-class' // Opcional: para estilos personalizados del modal
+    });
+    await modal.present();
   }
 
   private async presentAlert(header: string, message: string) {

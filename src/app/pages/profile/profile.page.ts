@@ -28,7 +28,7 @@ export class ProfilePage {
     height: 165
   };
 
-  async changeProfilePicture() {
+ async changeProfilePicture() {
   try {
     const image = await Camera.getPhoto({
       quality: 90,
