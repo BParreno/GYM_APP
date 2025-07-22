@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
+import { Auth, User } from '@angular/fire/auth';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -14,12 +17,49 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 export class ProfilePage {
   user = {
     photoURL: 'https://via.placeholder.com/150',
-    username: 'Mary Sunderland',
-    email: 'mary2001@example.com',
-    weight: 75,
-    age: 28,
-    height: 165
+    username: '',
+    email: '',
+    weight: 0,
+    age: 0,
+    height: 0
   };
+
+  private userAuth: User | null = null;
+
+  constructor(private auth: Auth, private firestore: Firestore) {
+    this.initUserData();
+  }
+
+  private initUserData() {
+    // Escuchar estado de autenticación
+    this.auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        this.userAuth = user;
+
+        // Datos básicos de autenticación
+        this.user.username = user.displayName || 'Sin nombre';
+        this.user.email = user.email || 'Sin correo';
+        this.user.photoURL = user.photoURL || this.user.photoURL;
+
+        // Cargar datos extra de Firestore
+        await this.loadAdditionalUserData(user.uid);
+      } else {
+        this.userAuth = null;
+        // Opcional: resetear datos o navegar fuera
+      }
+    });
+  }
+
+  private async loadAdditionalUserData(uid: string) {
+    const docRef = doc(this.firestore, `users/${uid}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      this.user.weight = data.weight || 0;
+      this.user.age = data.age || 0;
+      this.user.height = data.height || 0;
+    }
+  }
 
   async changeProfilePicture() {
     try {
@@ -27,10 +67,12 @@ export class ProfilePage {
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.DataUrl,
-        source: CameraSource.Photos, // 📂 Selecciona desde la galería
+        source: CameraSource.Photos,
       });
 
       this.user.photoURL = image.dataUrl!;
+
+      // Opcional: actualizar foto en Firebase Auth o Firestore aquí
     } catch (error) {
       console.log('Error seleccionando imagen:', error);
     }
