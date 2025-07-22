@@ -1,9 +1,10 @@
+<!-- src/app/pages/objective-selection/objective-selection.page.html -->
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/role-selection" text="Regresar" color="back-button"></ion-back-button>
+      <ion-back-button defaultHref="/profile-setup-weight" text="Regresar" color="back-button"></ion-back-button>
     </ion-buttons>
-    </ion-toolbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding custom-background">
@@ -16,19 +17,19 @@
     <ion-item
       *ngFor="let objective of availableObjectives"
       button
-      (click)="toggleObjective(objective)"
-      [class.is-selected]="isSelected(objective)"
+      (click)="selectObjective(objective)"
+      [class.selected]="selectedObjective === objective"
       class="objective-item"
     >
       <ion-label>{{ objective }}</ion-label>
-      <ion-icon [name]="isSelected(objective) ? 'checkmark-circle' : 'ellipse-outline'" slot="end"></ion-icon>
+      <ion-radio slot="end" [value]="objective" [(ngModel)]="selectedObjective"></ion-radio>
     </ion-item>
   </ion-list>
 
   <ion-button
     expand="block"
-    (click)="continueToNextPage()"
-    [disabled]="selectedObjectives.length === 0"
+    (click)="selectObjective(selectedObjective!)"
+    [disabled]="!selectedObjective"
     class="continue-button"
   >
     Continuar

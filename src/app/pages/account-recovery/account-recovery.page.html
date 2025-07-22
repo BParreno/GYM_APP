@@ -16,7 +16,7 @@
     Introduce tu correo electrónico asociado a tu cuenta para recibir un enlace para restablecer tu contraseña.
   </p>
 
-  <form [formGroup]="recoveryForm" (ngSubmit)="onSendRecoveryCode()">
+  <form [formGroup]="recoveryForm" (ngSubmit)="onSendRecoveryLink()">
     <ion-item class="custom-item">
       <ion-label position="floating">Correo electrónico</ion-label>
       <ion-input type="email" formControlName="email"></ion-input>
@@ -29,7 +29,7 @@
     </div>
 
     <ion-button expand="block" type="submit" color="danger" [disabled]="recoveryForm.invalid">
-      Enviar enlace de recuperación
+      Enviar Enlace de Recuperación
     </ion-button>
   </form>
 

@@ -1,26 +1,38 @@
-<ion-content class="ion-padding custom-bg">
+<!-- src/app/pages/profile/profile-setup-age/profile-setup-age.page.html -->
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile-setup-gender"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Configurar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-button fill="clear" color="danger" (click)="goBack()" class="back-btn">
-    <ion-icon name="arrow-back-outline"></ion-icon>
-    <strong>Salir</strong>
-  </ion-button>
+<ion-content class="ion-padding ion-text-center">
+  <ion-icon name="calendar-outline" size="large" color="primary" class="ion-margin-bottom"></ion-icon>
+  
+  <h1 class="ion-text-center">¿Cuál es tu edad?</h1>
+  <p class="ion-text-center">
+    Necesitamos tu edad para personalizar tus rutinas.
+  </p>
 
-  <div class="title-container">
-    <h1>¿Qué Edad Tienes?</h1>
-    <p>Ingrese correctamente su edad.</p>
-  </div>
-
-  <div class="age-selector">
-    <ion-icon name="caret-up" class="arrow" (click)="increaseAge()"></ion-icon>
-
-    <div class="age-box">
-      <input type="number" [(ngModel)]="age" min="6" class="age-input" />
-      <ion-icon name="pencil-outline" class="edit-icon"></ion-icon>
+  <form [formGroup]="ageForm" (ngSubmit)="onNext()">
+    <ion-item class="custom-item">
+      <ion-label position="floating">Edad</ion-label>
+      <ion-input type="number" formControlName="age" min="10" max="100"></ion-input>
+    </ion-item>
+    <div *ngIf="ageForm.get('age')?.touched && ageForm.get('age')?.errors?.['required']" class="error-message">
+      La edad es requerida.
+    </div>
+    <div *ngIf="ageForm.get('age')?.touched && (ageForm.get('age')?.errors?.['min'] || ageForm.get('age')?.errors?.['max'])" class="error-message">
+      La edad debe estar entre 10 y 100 años.
+    </div>
+    <div *ngIf="ageForm.get('age')?.touched && ageForm.get('age')?.errors?.['pattern']" class="error-message">
+      Solo se permiten números.
     </div>
 
-    <ion-icon name="caret-down" class="arrow" (click)="decreaseAge()"></ion-icon>
-  </div>
-
-  <ion-button expand="block" class="continue-btn" (click)="continue()">Continuar</ion-button>
-
+    <ion-button expand="block" type="submit" color="danger" [disabled]="ageForm.invalid">
+      Siguiente
+    </ion-button>
+  </form>
 </ion-content>

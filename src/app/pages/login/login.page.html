@@ -1,3 +1,4 @@
+<!-- src/app/pages/login/login.page.html -->
 <ion-header>
   <ion-toolbar>
     <ion-title>Iniciar sesión</ion-title>
@@ -5,35 +6,28 @@
 </ion-header>
 
 <ion-content class="ion-padding">
- <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-  <ion-item>
-    <ion-label position="floating">Correo</ion-label>
-    <ion-input type="email" formControlName="email"></ion-input>
-  </ion-item>
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <ion-item>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input type="password" formControlName="password"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
 
-  <ion-button expand="full" type="submit">Iniciar sesión</ion-button>
-</form>
-
+    <ion-button expand="full" type="submit">Iniciar sesión</ion-button>
+  </form>
 
   <ion-text class="ion-margin-top ion-text-center" color="medium">
     <p>
       ¿Olvidaste tu contraseña?
-      <a (click)="goToRecovery()">Recuperar cuenta</a>
+      <a routerLink="/account-recovery">Recuperar cuenta</a> <!-- CORREGIDO: Usar routerLink -->
     </p>
     <p>
       ¿No tienes una cuenta?
-      <a (click)="goToRegister()">Registrarse</a>
+      <a routerLink="/register">Registrarse</a> <!-- CORREGIDO: Usar routerLink -->
     </p>
   </ion-text>
- <p>
-
-      <a (click)="goToDistance()">distancia</a>
-    </p>
-
-
 </ion-content>
