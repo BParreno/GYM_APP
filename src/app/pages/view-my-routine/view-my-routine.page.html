@@ -16,7 +16,7 @@
   </div>
 
   <!-- AÑADIDO: (click)="goToDistance()" al ion-card -->
-  <ion-card class="ion-margin-top custom-card" (click)="goToDistance()">
+  
     <ion-card-header>
       <ion-card-title class="card-title">Rutina de Pecho y Tríceps</ion-card-title>
       <ion-card-subtitle class="card-subtitle">Asignada por Entrenador Juan</ion-card-subtitle>
@@ -46,7 +46,9 @@
         </ion-item>
       </ion-list>
     </ion-card-content>
-  </ion-card>
+  
 
-  <ion-button expand="block" routerLink="/home" class="continue-button">Volver al Inicio</ion-button>
+<ion-button expand="block" class="continue-button" (click)="goToRoutines()">
+  Volver al Inicio
+</ion-button>
 </ion-content>
