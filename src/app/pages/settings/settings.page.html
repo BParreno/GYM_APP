@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Ajustes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h2>Foto de perfil</h2>
+  <ion-item>
+    <ion-label position="floating">URL de la foto</ion-label>
+    <ion-input [(ngModel)]="user.photoURL"></ion-input>
+  </ion-item>
+
+  <h2>Datos personales</h2>
+  <ion-item>
+    <ion-label position="floating">Nombre de usuario</ion-label>
+    <ion-input [(ngModel)]="user.username"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Género</ion-label>
+    <ion-select [(ngModel)]="user.gender">
+      <ion-select-option value="Masculino">Masculino</ion-select-option>
+      <ion-select-option value="Femenino">Femenino</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Edad</ion-label>
+    <ion-input type="number" [(ngModel)]="user.age"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Altura (cm)</ion-label>
+    <ion-input type="number" [(ngModel)]="user.height"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Peso (kg)</ion-label>
+    <ion-input type="number" [(ngModel)]="user.weight"></ion-input>
+  </ion-item>
+
+  <h2>Privacidad</h2>
+  <ion-list>
+    <ion-item *ngFor="let key of visibilityKeys">
+      <ion-label>Mostrar {{ key }}</ion-label>
+      <ion-toggle [(ngModel)]="user.visibility[key]"></ion-toggle>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="full" (click)="updateProfile()">Guardar Cambios</ion-button>
+</ion-content>

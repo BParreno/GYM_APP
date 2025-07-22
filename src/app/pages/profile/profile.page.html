@@ -1,0 +1,60 @@
+
+
+<ion-content class="custom-bg">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Cabecera roja con datos principales -->
+  <div class="profile-header">
+    <h1 class="profile-title">Perfil</h1>
+    <img
+      [src]="user.photoURL"
+      alt="Foto de perfil"
+      class="profile-pic"
+      (click)="changeProfilePicture()"
+    />
+    <h2>{{ user.username }}</h2>
+    <p>{{ user.email }}</p>
+  </div>
+
+  <!-- Tarjeta de datos flotante -->
+  <div class="data-card">
+    <div class="info-item">
+      <strong>{{ user.weight }} Kg</strong>
+      <small>Peso</small>
+    </div>
+    <div class="info-item">
+      <strong>{{ user.age }}</strong>
+      <small>Edad</small>
+    </div>
+    <div class="info-item">
+      <strong>{{ user.height }} CM</strong>
+      <small>Altura</small>
+    </div>
+  </div>
+
+  <!-- Menú inferior -->
+  <ion-list class="settings-list">
+    <ion-item button>
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      <ion-label>Privacidad</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+
+    <ion-item button [routerLink]="['/settings']">
+      <ion-icon name="settings-outline" slot="start"></ion-icon>
+      <ion-label>Configuración</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+
+    <ion-item button>
+      <ion-icon name="heart-outline" slot="start"></ion-icon>
+      <ion-label>Salud</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+
+    <ion-item button>
+      <ion-icon name="log-out-outline" slot="start" color="danger"></ion-icon>
+      <ion-label color="danger">Salida</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>
