@@ -77,7 +77,7 @@ export class ProfileSetupWeightPage implements OnInit {
       if (this.currentUser) {
         await this.authService.updateUserProfileData(this.currentUser.uid, { weight: weight, weightUnit: this.unit });
         await loading.dismiss();
-        this.router.navigateByUrl('/objective-selection'); // Navegar a la selección de objetivo (NUEVO ORDEN)
+        this.router.navigateByUrl('/role-selection'); // Navegar a la selección de objetivo (NUEVO ORDEN)
       } else {
         await loading.dismiss();
         await this.presentAlert('Error', 'No hay usuario autenticado para guardar el peso.');

@@ -1,70 +1,70 @@
-/* src/app/pages/account-recovery/account-recovery.page.scss */
-ion-content {
-  --background: #f4f5f8;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+// src/app/pages/register/register.page.scss
 
-ion-icon {
-  font-size: 80px;
-  color: var(--ion-color-danger);
-  margin-bottom: 20px;
-}
 
-h1 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
-}
+  ion-header {
+    --background: var(--ion-color-danger);
+    --color: var(--ion-color-light-contrast);
 
-p {
-  font-size: 16px;
-  color: #666;
-  line-height: 1.5;
-  margin-bottom: 20px;
-}
+    ion-title {
+      text-align: center;
+      font-weight: bold;
+    }
+  }
 
-ion-item.custom-item {
-  --background: #bcb1b1;
-  --border-color: #ccc;
-  --border-width: 2px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
-  --highlight-background: #f1f1f1;
-}
+  ion-content {
+    /* Fondo general gris oscuro */
+    --background: #2c2c2c;
+    color: white;
 
-ion-input {
-  color: #333;
-}
+    form {
+      ion-item {
+        /* Fondo ligeramente más claro para destacar inputs */
+        --background: #3a3a3a;
+        border-radius: 10px;
+        margin-top: 12px;
+        padding: 2px 0;
+        --highlight-color-focused: var(--ion-color-danger);
 
-ion-label {
-  color: #100b0b;
-}
+        ion-label {
+          color: var(--ion-color-light);
+        }
 
-ion-button {
-  margin-top: 20px;
-  --border-radius: 8px;
-  --box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
-}
+        ion-input {
+          color: white;
+        }
+      }
 
-a {
-  cursor: pointer;
-  color: var(--ion-color-danger);
-  text-decoration: none;
-}
+      .ion-text-danger {
+        font-size: 0.85rem;
+        margin-top: 4px;
+      }
 
-a:hover {
-  text-decoration: underline;
-}
+      ion-checkbox {
+        --background: white;
+        --border-color: var(--ion-color-danger);
+        --checkmark-color: var(--ion-color-danger);
+      }
 
-.error-message {
-  color: var(--ion-color-danger);
-  font-size: 0.8em;
-  margin-top: -10px;
-  margin-bottom: 10px;
-  padding-left: 16px;
-}
+      ion-button {
+        --background: var(--ion-color-danger);
+        border-radius: 12px;
+        font-weight: bold;
+      }
+    }
+
+    .ion-text-center p {
+      font-size: 0.9rem;
+
+      a {
+        color: var(--ion-color-danger);
+        font-weight: 500;
+      }
+    }
+
+    ion-button[fill='outline'] {
+      --color: var(--ion-color-danger);
+      --border-color: var(--ion-color-danger);
+      border-radius: 12px;
+      font-weight: bold;
+    }
+  }

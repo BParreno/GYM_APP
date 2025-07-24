@@ -7,7 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding" color="dark">
+<ion-content class="ion-padding page-create-routine" color="dark">
+
 
   <!-- Spinner mientras carga -->
   <ion-spinner
@@ -15,7 +16,7 @@
     name="crescent"
     style="display: block; margin: 0 auto; margin-top: 40%;"
   ></ion-spinner>
-  <p *ngIf="loading" style="text-align: center; color: white;">Cargando rutina...</p>
+  <p *ngIf="loading" style="text-align: center; color: rgb(66, 29, 29);">Cargando rutina...</p>
 
   <!-- Formulario solo si NO está cargando -->
   <div *ngIf="!loading">

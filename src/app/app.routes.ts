@@ -45,13 +45,18 @@ export const routes: Routes = [
     path: 'objective-selection',
     loadComponent: () => import('./pages/objective-selection/objective-selection.page').then(m => m.ObjectiveSelectionPage)
   },
+  {
+    path: 'objective-selection-intermedio',
+    loadComponent: () => import('./pages/objective-selection-intermedio/objective-selection-intermedio.page').then(m => m.ObjectiveSelectionIntermedioPage)
+  },
   // objective-selection-intermedio YA NO SE USA (eliminada)
   {
     path: 'view-my-routine',
     loadComponent: () => import('./pages/view-my-routine/view-my-routine.page').then(m => m.ViewMyRoutinePage)
+  },{
+path:'create-routine',
+loadComponent: () => import('./pages/create-routine/create-routine/create-routine.page').then(m=> m.CreateRoutinePage )
   },
-
-
 {
   path: 'view-my-routine/:id',
   loadComponent: () => import('./pages/view-my-routine/view-my-routine.page').then(m => m.ViewMyRoutinePage)

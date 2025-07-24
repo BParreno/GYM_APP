@@ -1,0 +1,23 @@
+
+  ion-button {
+    --background: var(--ion-color-danger);
+    --color: var(--ion-color-light-contrast);
+    --border-radius: 8px;
+    font-weight: bold;
+  }
+
+  /* Estilos para los toggles en privacidad */
+  ion-toggle {
+    --handle-background: var(--ion-color-light-contrast);  /* Color del círculo del toggle */
+    --handle-background-checked: var(--ion-color-danger);   /* Color del círculo en ON */
+    --bar-background: var(--ion-color-medium);              /* Barra de fondo OFF */
+    --bar-background-checked: var(--ion-color-danger);      /* Barra de fondo ON */
+/* Estilos por defecto (OFF) */
+  --track-background: var(--ion-color-danger) !important;
+  --handle-background: var(--ion-color-light-contrast) !important;
+
+  /* Estilos cuando está activado (ON) */
+  --track-background-checked: var(--ion-color-danger) !important;
+  --handle-background-checked: var(--ion-color-dark-contrast) !important;
+}
+

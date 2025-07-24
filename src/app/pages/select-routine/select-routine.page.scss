@@ -1,18 +1,60 @@
-ion-content {
-  --background: #1E1E1E;
-  color: #FFFFFF;
+/* src/app/pages/routines/routines.page.scss */
 
-  ion-item {
-    --background: #2A2A2A;
-    margin-bottom: 8px;
-    border-radius: 8px;
 
-    ion-label {
-      color: #FFFFFF;
-    }
-
-    ion-thumbnail img {
-      border-radius: 4px;
+  ion-header {
+    ion-toolbar {
+      --background: #2c2c2c !important;
+      --color: var(--ion-color-light-contrast) !important;
     }
   }
-}
+
+  ion-content {
+    --background: #2c2c2c !important;
+    color: var(--ion-color-light-contrast);
+
+    .scroll-content {
+      background: #2c2c2c !important;
+    }
+
+    ion-list {
+      margin-top: 8px;
+
+      ion-item {
+        --background: #3a3a3a !important;
+        --ion-item-background: #3a3a3a !important;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        padding: 10px;
+
+        ion-thumbnail {
+          border-radius: 6px;
+          overflow: hidden;
+        }
+
+        ion-label {
+          h2 {
+            color: white;
+            font-size: 1.1em;
+            margin-bottom: 4px;
+          }
+          p {
+            color: var(--ion-color-medium);
+            font-size: 0.9em;
+          }
+        }
+      }
+    }
+
+    ion-fab-button {
+      --background: var(--ion-color-danger);
+      --color: var(--ion-color-light-contrast);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .continue-button {
+    margin: 16px;
+    --background: var(--ion-color-danger);
+    --color: var(--ion-color-dark-contrast);
+    border-radius: 8px;
+  }
