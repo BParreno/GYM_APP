@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+// src/app/pages/all-routines/all-routines.page.ts
+
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Firestore, doc, getDoc, setDoc, collection, addDoc } from '@angular/fire/firestore';
 
-// Definición de la interfaz Routine (sin imageUrl)
 interface Routine {
   id: string;
   name: string;
   duration: string;
-  exercises: number | null;
-  // imageUrl: string; // <-- ELIMINADO
+  exercises: number;
 }
 
 @Component({
@@ -21,77 +22,88 @@ interface Routine {
   imports: [IonicModule, CommonModule, FormsModule]
 })
 export class AllRoutinesPage implements OnInit {
-  // Datos de las rutinas, ahora sin la propiedad imageUrl
   allRoutines: Routine[] = [
     { id: '1', name: 'Rutina de Pecho y Tríceps', duration: '60 minutos', exercises: 5 },
     { id: '2', name: 'Rutina de Piernas Avanzada', duration: '75 minutos', exercises: 6 },
     { id: '3', name: 'Rutina de Brazos y Hombros', duration: '50 minutos', exercises: 8 },
-    { id: '4', name: 'Rutina Full Body Express', duration: '40 minutos', exercises: 7 },
+    { id: '4', name: 'Rutina Full Body Express', duration: '40 minutos', exercises: 7 }
   ];
 
   isAssignModalOpen = false;
-  selectedRoutineForAssignment: any = null;
-  userIdToAssign: string = '';
+  selectedRoutineForAssignment: Routine | null = null;
+  userIdToAssign = '';
 
   isCreateModalOpen = false;
-  newRoutine = {
-    name: '',
-    duration: '',
-    exercises: null as number | null
-  };
+  newRoutine: Routine = { id: '', name: '', duration: '', exercises: 0 };
 
-  constructor(private router: Router) { }
+  private firestore: Firestore = inject(Firestore);
+  private router: Router = inject(Router);
 
-  ngOnInit() { }
+  ngOnInit() {}
 
+  // Modal de creación
   createRoutine() {
-    this.newRoutine = {
-      name: '',
-      duration: '',
-      exercises: null
-    };
+    this.newRoutine = { id: '', name: '', duration: '', exercises: 0 };
     this.isCreateModalOpen = true;
-    console.log('Abriendo modal para crear nueva rutina.');
   }
 
   saveNewRoutine() {
-    if (this.newRoutine.name && this.newRoutine.duration && this.newRoutine.exercises !== null) {
-      console.log('Nueva rutina a guardar (demo):', this.newRoutine);
+    if (this.newRoutine.name && this.newRoutine.duration && this.newRoutine.exercises > 0) {
       const newId = (this.allRoutines.length + 1).toString();
-      this.allRoutines.push({
-        ...this.newRoutine,
-        id: newId,
-        exercises: this.newRoutine.exercises,
-        // imageUrl: `assets/images/woman-gym-2.png` // <-- ELIMINADO
-      });
+      this.allRoutines.push({ ...this.newRoutine, id: newId });
       this.isCreateModalOpen = false;
     } else {
-      console.warn('Por favor, completa todos los campos para la nueva rutina.');
+      console.warn('Por favor, completa todos los campos.');
     }
   }
 
   cancelCreateRoutine() {
     this.isCreateModalOpen = false;
-    console.log('Creación de rutina cancelada.');
   }
 
-  viewRoutineDetails(routine: any) {
-    console.log('Ver detalles de la rutina:', routine.name);
-  }
-
-  assignRoutine(routine: any) {
+  // Modal de asignación
+  assignRoutine(routine: Routine) {
     this.selectedRoutineForAssignment = routine;
+    this.userIdToAssign = '';
     this.isAssignModalOpen = true;
-    console.log('Abriendo modal para asignar rutina:', routine.name);
   }
 
-  confirmAssignment() {
-    if (this.selectedRoutineForAssignment && this.userIdToAssign) {
-      console.log(`Rutina "${this.selectedRoutineForAssignment.name}" asignada al usuario con ID: ${this.userIdToAssign}`);
-      this.isAssignModalOpen = false;
-      this.userIdToAssign = '';
-    } else {
-      console.warn('Por favor, selecciona una rutina y/o ingresa un ID de usuario.');
+  async confirmAssignment() {
+    if (!this.selectedRoutineForAssignment || !this.userIdToAssign.trim()) {
+      console.warn('Selecciona rutina y usuario.');
+      return;
     }
+
+    // Verificar rol del usuario
+    const userRef = doc(this.firestore, `users/${this.userIdToAssign}`);
+    const userSnap = await getDoc(userRef);
+    const data = userSnap.data();
+    if (!userSnap.exists() || data?.role !== 'Principiante') {
+      console.warn('Usuario no existe o no es principiante.');
+      return;
+    }
+
+    // Guardar rutina asignada
+    const routineToAssign = {
+      ...this.selectedRoutineForAssignment,
+      assignedBy: 'Entrenador',
+      assignedAt: new Date()
+    };
+    const assignRef = doc(this.firestore,
+      `users/${this.userIdToAssign}/assignedRoutine/routine`);
+    await setDoc(assignRef, routineToAssign);
+
+    console.log(`✅ Rutina asignada a ${this.userIdToAssign}`);
+    this.userIdToAssign = '';
+    this.isAssignModalOpen = false;
+  }
+
+  openActions(r: Routine) {
+    // Lógica adicional (como ver detalles)
+    console.log('Acciones rutina', r);
+  }
+
+  viewRoutineDetails(routine: Routine) {
+    this.router.navigate(['/routine-detail', routine.id]);
   }
 }

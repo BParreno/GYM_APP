@@ -1,54 +1,31 @@
-<!-- src/app/pages/view-my-routine/view-my-routine.page.html -->
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <!-- Ajusta defaultHref según de dónde venga el usuario (ej. objective-selection) -->
-      <ion-back-button defaultHref="/objective-selection" text="Regresar" color="back-button"></ion-back-button>
-    </ion-buttons>
-    <!-- No hay ion-title aquí -->
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding custom-background">
+
   <div class="ion-text-center header-text">
     <h2 class="text-xl font-bold">Mi Rutina</h2>
-    <p class="text-gray-700">Aquí verás la rutina que te ha sido asignada o tu rutina actual.</p>
+    <p *ngIf="!routine">Aún no tienes una rutina asignada.</p>
+    <p *ngIf="routine">Aquí verás la rutina que te ha sido asignada.</p>
   </div>
 
-  <!-- AÑADIDO: (click)="goToDistance()" al ion-card -->
-  
+  <ion-card *ngIf="routine">
     <ion-card-header>
-      <ion-card-title class="card-title">Rutina de Pecho y Tríceps</ion-card-title>
-      <ion-card-subtitle class="card-subtitle">Asignada por Entrenador Juan</ion-card-subtitle>
+      <ion-card-title class="card-title">{{ routine.name }}</ion-card-title>
+      <ion-card-subtitle class="card-subtitle">
+        Asignada por {{ routine.assignedBy }}
+      </ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <div class="card-details">
-        <p>Duración: 60 minutos</p>
-        <p>Ejercicios: 5</p>
-        <p>Calorías estimadas: 450 Kcal</p>
+        <p>Duración: {{ routine.duration }}</p>
+        <p>Ejercicios: {{ routine.exercises }}</p>
+        <p>Calorías estimadas: {{ routine.calories ?? 'N/A' }}</p>
       </div>
-      <ion-list lines="full" class="exercise-list">
-        <ion-item class="exercise-item">
-          <ion-label>Press de Banca (Barra)</ion-label>
-          <ion-note slot="end">4 sets x 8-12 reps</ion-note>
-        </ion-item>
-        <ion-item class="exercise-item">
-          <ion-label>Aperturas con Mancuernas</ion-label>
-          <ion-note slot="end">3 sets x 10-15 reps</ion-note>
-        </ion-item>
-        <ion-item class="exercise-item">
-          <ion-label>Press Francés (Mancuernas)</ion-label>
-          <ion-note slot="end">3 sets x 10-12 reps</ion-note>
-        </ion-item>
-        <ion-item class="exercise-item">
-          <ion-label>Extensiones de Tríceps en Polea</ion-label>
-          <ion-note slot="end">3 sets x 12-15 reps</ion-note>
-        </ion-item>
-      </ion-list>
     </ion-card-content>
-  
+  </ion-card>
 
-<ion-button expand="block" class="continue-button" (click)="goToRoutines()">
-  Volver al Inicio
-</ion-button>
+  <ion-spinner *ngIf="loading" class="ion-margin-top" name="dots"></ion-spinner>
+
 </ion-content>
+
+<ion-button expand="block" (click)="goToProfile()">
+  Ir a Perfil
+</ion-button>
